@@ -1,0 +1,82 @@
+@import "../../fluent/variables.less";
+@import "../../fluent/components/acrylic.less";
+
+.DiscussionList-discussions > li {
+  animation: appear @ControlNormalAnimationDuration @ControlFastOutSlowInKeySpline 1 backwards;
+  animation-delay: ~"calc(rem(calc(sibling-index() - 1), 20) * 100ms)";
+}
+
+@keyframes appear {
+    from {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+}
+
+.FormControl {
+  &::picker-icon {
+    display: none;
+  }
+
+  &, &::picker(select) {
+    appearance: base-select !important;
+  }
+
+  &::picker(select) {
+    .shadow16();
+
+    .fluent-acrylic(true);
+
+    box-shadow: @low-elevation-ramp, @shadow-outline-normal;
+    border-radius: @large-radius;
+    border: none;
+
+    .Dropdown-menu.normal();
+
+    &:popover-open {
+      &:extend(.open .Dropdown-menu);
+    }
+  }
+
+  & > option {
+    margin: 4px;
+    padding: 8px 15px;
+    border-radius: @small-radius;
+
+    &:hover {
+      background-color: @menu-item-hover;
+    }
+
+    &:active {
+      background-color: @menu-item-active;
+    }
+  }
+}
+
+.Dropdown-menu {
+  .normal() {
+    transition-property: height, box-shadow;
+    transition-duration: @ControlNormalAnimationDuration;
+    transition-timing-function: @ControlFastOutSlowInKeySpline;
+    interpolate-size: allow-keywords;
+  }
+
+  .Dropdown-menu.normal();
+
+  .open & {
+    height: max-content;
+    overflow-y: hidden;
+  }
+}
+
+@starting-style {
+  .open .Dropdown-menu, .FormControl::picker(select):popover-open {
+    height: 0;
+    box-shadow: none;
+  }
+}

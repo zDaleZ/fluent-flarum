@@ -1,0 +1,158 @@
+@import "../variables.less";
+
+.fluent-toggle() {
+	.off-state() {
+		.fluent-toggle-container.off-state.normal();
+
+		&:before {
+			.fluent-toggle-knob.off-state.normal();
+		}
+
+		&:hover {
+			.fluent-toggle-container.off-state.hover();
+
+			&:before {
+				.fluent-toggle-knob.off-state.hover();
+			}
+		}
+
+		&:active {
+			.fluent-toggle-container.off-state.active();
+
+			&:before {
+				.fluent-toggle-knob.off-state.active();
+			}
+		}
+	}
+
+	.on-state() {
+		.fluent-toggle-container.on-state.normal();
+
+		&:before {
+			.fluent-toggle-knob.on-state.normal();
+		}
+
+		&:hover {
+			&:before {
+				.fluent-toggle-knob.on-state.hover();
+			}
+		}
+
+		&:active {
+			&:before {
+				.fluent-toggle-knob.on-state.active();
+			}
+		}
+
+		&:disabled {
+			.fluent-toggle-container.on-state.disabled();
+		
+			&:before {
+				.fluent-toggle-knob.on-state.disabled();
+			}
+		}
+	}
+
+	.fluent-toggle.normal-state();
+
+	&:checked {
+		.fluent-toggle.on-state();
+	}
+}
+
+.fluent-toggle-container() {
+	.off-state() {
+		.normal() {
+			width: 40px;
+			height: 20px;
+			border: @ControlStrongStrokeColorDefault 1px solid;
+			border-radius: 20px;
+			margin-top: 0px;
+			background: @ControlAltFillColorSecondary;
+			transition-timing-function: @ControlFastOutSlowInKeySpline;
+			transition-property: all;
+		}
+
+		.hover() {
+			background: @ControlAltFillColorTertiary;
+		}
+
+		.active() {
+			background: @ControlAltFillColorQuarternary;
+		}
+
+		.disabled() {
+			background: transparent;
+			border-color: @ControlStrongStrokeColorDisabled;
+		}
+	}
+
+	.on-state() {
+		.normal() {
+			background: var(--primary-color);
+			border: var(--primary-color) 1px solid;
+		}
+
+		.disabled() {
+			background: @AccentFillColorDisabled;
+			border-color: @ControlStrongStrokeColorDisabled;
+		}
+	}
+}
+
+.fluent-toggle-knob() {
+	.off-state() {
+		.normal() {
+			content: ' ';
+			display: block;
+			position: absolute;
+			background: @TextFillColorSecondary;
+			width: 12px;
+			height: 12px;
+			border-radius: 30px;
+			translate: 3px 3px;
+			scale: 1;
+			transform-origin: center;
+			transition-property: width, scale, translate;
+			transition-timing-function: inherit;
+			transition-duration: @ControlFasterAnimationDuration, @ControlFasterAnimationDuration, @ControlNormalAnimationDuration;
+		}
+
+		.hover() {
+			transition-timing-function: inherit;
+			translate: 3px 3px;
+			scale: 14 / 12;
+		}
+
+		.active() {
+			transition-timing-function: inherit;
+			width: 15px;
+		}
+
+		.disabled() {
+			background: @TextFillColorDisabled;
+		}
+	}
+
+	.on-state() {
+		.normal() {
+			background: @TextOnAccentFillColorPrimary;
+			translate: 23px 3px;
+			scale: 1;
+		}
+
+		.hover() {
+			translate: 23px 3px;
+			scale: 14 / 12;
+		}
+
+		.active() {
+			translate: 20px 3px;
+			scale: 14 / 12;
+		}
+
+		.disabled() {
+			background: @TextOnAccentFillColorDisabled;
+		}
+	}
+}

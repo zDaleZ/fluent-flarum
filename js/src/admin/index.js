@@ -1,3 +1,12 @@
+/*
+ * This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
 import app from "flarum/admin/app";
 import Alert from "flarum/common/components/Alert";
 
@@ -13,7 +22,7 @@ app.initializers.add(withID(), () => {
   app.extensionData
     .for(withID())
     .registerSetting(function () {
-      const disable = app.data.settings["dalez-fluent-flarum.disableBeta"];
+      const disable = app.data.settings[withID(".disableBeta")];
       if (disable === "1" || disable) return;
 
       return (
@@ -38,7 +47,8 @@ app.initializers.add(withID(), () => {
         bing_green: trans(withID(".admin.bing_green")),
         bing_blue: trans(withID(".admin.bing_blue")),
         mica_accent: trans(withID(".admin.mica_accent")),
-        mica_colorful: trans(withID(".admin.mica_colorful"))
+        mica_colorful: trans(withID(".admin.mica_colorful")),
+        custom: trans(withID(".admin.custom"))
       },
       default: "solid",
     });

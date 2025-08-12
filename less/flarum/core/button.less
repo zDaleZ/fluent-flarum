@@ -1,0 +1,293 @@
+//
+// Button groups
+// --------------------------------------------------
+
+// Make the div behave like a button
+.ButtonGroup {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+
+  > .Button {
+    position: relative;
+    float: left;
+    // Bring the "active" button to the front
+    &:hover,
+    &:focus,
+    &:active,
+    &.active {
+      z-index: 2;
+    }
+
+    &:not(:first-child):not(:last-child):not(.Dropdown-toggle) {
+      border-radius: 0;
+    }
+    &:first-child:not(:last-child):not(.Dropdown-toggle) {
+      margin-left: 0;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    &:last-child:not(:first-child), &.Dropdown-toggle:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+
+  .Button + .Button {
+    margin-left: 1px;
+  }
+}
+
+//
+// Buttons
+// --------------------------------------------------
+
+@import '../../fluent/components/button.less';
+
+.Button {
+  display: inline-block;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  white-space: nowrap;
+  line-height: 20px;
+  padding: 6px 11px;
+  border-radius: var(--border-radius);
+  .user-select(none);
+  color: var(--button-color);
+  background: var(--button-bg);
+  border: 0;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:not(.Button--primary, .Button--square, .Button--rounded, .Button--flat, .Button--link, .Button--text, .Button--ua-reset, .Button--more) {
+    .fluent-button(false);
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        &:extend(.Button:not(.Button--primary):disabled);
+    }
+
+    &.active,
+    .open > .Dropdown-toggle& {
+        &:extend(.Button:not(.Button--primary):active);
+    }
+
+    &:focus,
+    &.focus {
+        &:extend(.Button:not(.Button--primary):hover);
+    }
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: default;
+  }
+
+  a& {
+    &.disabled,
+    fieldset[disabled] & {
+      pointer-events: none; // Future-proof disabling of clicks on `<a>` elements
+    }
+  }
+
+  .Button-label {
+    transition: margin-right 0.1s;
+  }
+
+  .LoadingIndicator-container {
+    color: inherit;
+    margin-top: -0.175em;
+    margin-left: 4px;
+  }
+}
+
+.Button--square {
+  padding-left: 9px;
+  padding-right: 9px;
+}
+.Button--rounded {
+  border-radius: 18px;
+}
+.Button--flat {
+  .fluent-button-flat(false);
+
+  background: transparent;
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:extend(.Button--flat:disabled);
+  }
+
+  &.active,
+  .open > .Dropdown-toggle& {
+    &:extend(.Button--flat:active);
+  }
+
+  &:focus,
+  &.focus {
+    &:extend(.Button--flat:hover);
+  }
+}
+.Button--link {
+  &, &:hover {
+    background: transparent;
+  }
+
+  .fluent-button-flat(true);
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:extend(.Button--link:disabled);
+  }
+
+  &.active,
+  .open > .Dropdown-toggle& {
+    &:extend(.Button--link:active);
+  }
+
+  &:focus,
+  &.focus {
+    &:extend(.Button--link:hover);
+  }
+}
+.Button--text {
+  background: transparent;
+  padding: 0;
+  color: inherit !important;
+  line-height: inherit;
+
+  .fluent-button-flat(false);
+
+  &:hover {
+    text-decoration: underline;
+  }
+  &.active {
+    &:extend(.Button--text:active);
+  }
+}
+.Button--primary {
+  .Button--color-auto('button-primary');
+  font-weight: bold;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  .Button-icon {
+    display: none;
+  }
+
+  .fluent-button(true);
+
+  &.focus {
+    &:extend(.Button--primary:focus);
+  }
+
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &:extend(.Button--primary:disabled);
+  }
+}
+.Button--inverted {
+  .Button--color-auto('button-inverted') !important;
+}
+.Button--danger {
+  .Button--color-auto('control-danger') !important;
+}
+.Button--more {
+  padding: 2px 4px;
+  line-height: 1;
+
+  .Button-icon {
+    margin: 0;
+  }
+}
+.Button--block {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  // Vertically space out multiple block buttons
+  + .Button--block {
+    margin-top: 5px;
+  }
+}
+// Little round icon buttons
+.Button--icon {
+  width: 36px;
+  text-align: center;
+  padding: 6px 0;
+
+  .Button-label, .Button-caret {
+    display: none;
+  }
+  .Button-icon {
+    font-size: 16px;
+    vertical-align: -1px;
+    margin: 0;
+  }
+}
+.SessionDropdown .Dropdown-toggle {
+  border-radius: 18px;
+
+  .Avatar {
+    margin: -2px 5px -2px -6px;
+    .Avatar--size(24px);
+  }
+}
+.Button-icon {
+  margin-right: 7px;
+}
+.Button-icon,
+.Button-caret {
+  font-size: 14px;
+}
+.Button-caret {
+  margin-left: 7px;
+}
+.Button-badge {
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+// Remove all user-agent styles from the Button
+.Button--ua-reset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+  overflow: visible;
+  text-align: inherit;
+  vertical-align: inherit;
+
+  background: transparent;
+
+  /* inherit font & color from ancestor */
+  color: inherit;
+  font: inherit;
+
+  /* Normalize `line-height`. Cannot be changed from `normal` in Firefox 4+. */
+  line-height: normal;
+
+  /* Corrects font smoothing for webkit */
+  -webkit-font-smoothing: inherit;
+  -moz-osx-font-smoothing: inherit;
+
+  /* Corrects inability to style clickable `input` types in iOS */
+  -webkit-appearance: none;
+  appearance: none;
+
+  &::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+  }
+}

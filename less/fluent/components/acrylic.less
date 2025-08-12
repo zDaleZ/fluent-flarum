@@ -1,0 +1,24 @@
+@import "../variables.less";
+
+.fluent-acrylic(@pixel-to-pixel: false) {
+	background-color: var(--acrylic-color);
+	background-image: var(--noise-asset);
+	background-attachment: fixed;
+	backdrop-filter: var(--acrylic-filter);
+
+	.pixel-to-pixel() when (@pixel-to-pixel) {
+		background-size: ~"calc(256px / var(--dpi-scale))";
+	}
+
+	.pixel-to-pixel();
+}
+
+.fluent-acrylic-unavailable() {
+	--acrylic-color: @layer-2-color;
+	--acrylic-filter: none;
+}
+
+.fluent-acrylic-available() {
+	--acrylic-color: @Acrylic-bg;
+	--acrylic-filter: @Acrylic-filter;
+}

@@ -1,0 +1,18 @@
+@import "../variables.less";
+
+.fluent-menu() {
+	.shadow16();
+	box-shadow: @low-elevation-ramp, @shadow-outline-normal;
+	border-radius: @large-radius;
+}
+
+.fluent-menu-item() {
+	margin: 4px;
+	border-radius: @small-radius;
+	&:hover {
+		background: @menu-item-hover;
+	}
+	&:active {
+		background: @menu-item-active;
+	}
+}

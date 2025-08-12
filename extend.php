@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
 namespace DaleZ\fluent_flarum;
 
 use Flarum\Extend;
@@ -82,9 +91,16 @@ $new = [
                 $document->head[] = '<script>(function(){function a(){var a=document.querySelector(`meta[name="theme-color"]`);a.content=b.getPropertyValue("--header-bg")}var b=getComputedStyle(document.querySelector(":root"));a(),new Promise(function(a){var b=setInterval(function(){flarum&&flarum.extensions&&(clearInterval(b),a())},500)}).then(function(){flarum.extensions["fof-nightmode"]&&document.addEventListener("fofnightmodechange",a)})})();</script>';
             }
         })
-        ->css(__DIR__.'/oldless/forum.less')
+        // ->css(__DIR__.'/oldless/forum.less')
         ->css(__DIR__.'/less/forum.less')
-        ->js(__DIR__.'/js/dist/forum.js'),  
+        ->js(__DIR__.'/js/dist/forum.js'), 
+
+        (new Extend\Theme)
+            ->overrideLessImport('common/Button.less', __DIR__.'/less/flarum/core/button.less')
+            ->overrideLessImport('common/Checkbox.less', __DIR__.'/less/flarum/core/toggle.less')
+            ->overrideLessImport('common/LoadingIndicator.less', __DIR__.'/less/flarum/core/LoadingIndicator.less')
+            ->overrideLessImport('common/Modal.less', __DIR__.'/less/flarum/core/Modal.less')
+            ->overrideLessImport('common/Dropdown.less', __DIR__.'/less/flarum/core/Dropdown.less'),
 
         (new Extend\Settings())
             ->default('dalez-fluent-flarum.disableBeta', false)

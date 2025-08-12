@@ -1,4 +1,4 @@
-# Fluent-Flarum
+### Fluent-Flarum
 
 [简体中文](./ReadMe.md) | English
 
@@ -6,18 +6,15 @@ Use this theme to give your Flarum a new look.
 
 This theme is designed with reference to the Microsoft Fluent Design System, bringing you a familiar, soft, friendly, and smooth feeling.
 
-#### Covered Content
+### License
 
-Buttons, toggle switches, option menus, labels, sidebars, modal windows, information bars, input controls, and checkboxes.
+This project is governed by a multi-license scheme:
 
-In addition, it also partially changes the appearance of Forum Widgets, Level Ranks, FancyBox, and Blog.
+- Files `.css` and `.less` are made available under the MIT License.
+- Files `.js` and `.php` are made available under the Microsoft Reciprocal License (MS-RL).
+- The rest of files are made available under the MIT License.
 
-It is uncertain whether it is compatible with Flarum Categories.
+For more information, please refer to full texts of the licenses, which are provided in the repository root:
 
-#### Preview
-
-Please go to the [Demo Site](https://dellzhackintosh.github.io/fluent-flarum/).
-
-### Custom Design
-
-The Fluent theme supports a series of customizations. Please go to the [Design Guide](./documents/design-en.md).
+- `LICENSE`            → MIT License  
+- `LICENSE-SCRIPT`     → Microsoft Reciprocal License (MS-RL)

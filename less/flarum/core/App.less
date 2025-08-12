@@ -1,0 +1,38 @@
+@media @tablet-up {
+  #header > .container {
+    display: flex;
+  }
+
+  .App-navigation {
+    display: none;
+  }
+  .Header-navigation {
+    display: none;
+  }
+  .Header-primary {
+    flex: 1 1 0;
+  }
+  .Header-title {
+    &:extend(.Header-navigation);
+  }
+  .Header-secondary {
+    &:extend(.Header-primary);
+
+    & > .Header-controls {
+        display: flex;
+        justify-content: flex-end;
+    }
+  }
+  .Header-search {
+    min-width: 150px;
+    max-width: 750px;
+    width: auto;
+    flex: 0.5 1 0;
+  }
+  .Search.focused {
+    margin-left: 0;
+  }
+  .Search.focused input, .Search.focused .Search-results {
+    width: auto;
+  }
+}

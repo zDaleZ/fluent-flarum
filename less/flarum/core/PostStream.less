@@ -1,0 +1,46 @@
+@import "../../fluent/components/layer.less";
+
+.loading > .DiscussionPage-stream {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media @phone {
+	.DiscussionPage-discussion > .container {
+		padding: 0 16px 16px;
+
+    &.loading {
+      height: ~"calc(100vh - var(--header-height) - 24px)";
+      margin: 12px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+	}
+
+	.DiscussionPage-discussion > .container, .PostsUserPage {
+		box-shadow: @shadow-outline-normal;
+		background-color: @LayerFillColorDefault;
+	}
+}
+
+@media @tablet-up {
+  .DiscussionPage-stream, .PostsUserPage {
+    .fluent-layer();
+  }
+
+  .DiscussionPage-stream {
+    padding: 0 16px 16px;
+
+    .loading > & {
+      height: ~"calc(100vh - var(--header-height) - 24px)";
+      margin: 12px 0;
+    }
+  }
+
+  .PostsUserPage {
+    padding: 16px;
+  }
+}

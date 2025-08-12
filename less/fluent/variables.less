@@ -1,3 +1,14 @@
+/*
+ * This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ
+ *
+ *  This file is licensed under the MIT License.
+ *  For full license text, please see the LICENSE file
+ *  that was distributed with this source code.
+ */
+
+.define-variables(@config-dark-mode);
 .define-variables(false) {
 	@layer-1-color: #e8e8e8;
 	@layer-2-color: #f9f9f9;
@@ -23,7 +34,26 @@
 	@Acrylic-bg: rgba(255, 255, 255, 0.6);
 	@Text-Input: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(~"#0000000F" ~"calc(100% - 1px)", ~"#00000072" ~"calc(100% - 1px)", ~"#00000072");
 	@Text-Input-focus: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(~"#0000000F" ~"calc(100% - 2px)", var(--primary-color) ~"calc(100% - 2px)", var(--primary-color)) !important;
-    @Acrylic-filter: contrast(45%) blur(30px) saturate(1.25) brightness(135%);
+  @Acrylic-filter: contrast(45%) blur(30px) saturate(1.25) brightness(135%);
+	@mica-blend-color-first: ~"#f3f3f380";
+  @mica-blend-color-second: #f3f3f3;
+  @mica-alt-blend-color-first: ~"#dbdbdb80";
+  @mica-alt-blend-color-second: #dbdbdb;
+	@SubtleFillColorSecondary: ~"#00000009";
+	@SubtleFillColorTertiary: ~"#00000006";
+	@ControlAltFillColorSecondary: ~"#00000006";
+	@ControlAltFillColorTertiary: ~"#0000000F";
+	@ControlAltFillColorQuarternary: ~"#00000018";
+	@TextFillColorPrimary: ~"#000000E4";
+	@TextFillColorSecondary: ~"#0000009E";
+	@TextFillColorTertiary: ~"#00000072";
+	@TextFillColorDisabled: ~"#0000005C";
+	@ControlStrongStrokeColorDefault: ~"#00000072";
+	@ControlStrongStrokeColorDisabled: ~"#00000037";
+	@TextOnAccentFillColorPrimary: white;
+	@TextOnAccentFillColorSecondary: ~"#FFFFFFB3";
+	@TextOnAccentFillColorDisabled: white;
+	@AccentFillColorDisabled: @ControlStrongStrokeColorDisabled;
 }
 .define-variables(true) {
 	@layer-1-color: #202020;
@@ -50,7 +80,26 @@
 	@Acrylic-bg: transparent;
 	@Text-Input: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(~"#FFFFFF12" ~"calc(100% - 1px)", ~"#FFFFFF8B" ~"calc(100% - 1px)", ~"#FFFFFF8B");
 	@Text-Input-focus: padding-box linear-gradient(@ControlFillColorInputActive, @ControlFillColorInputActive), border-box linear-gradient(~"#FFFFFF12" ~"calc(100% - 2px)", var(--primary-color) ~"calc(100% - 2px)", var(--primary-color)) !important;
-    @Acrylic-filter: saturate(125%) brightness(125%) blur(30px) contrast(75%) saturate(250%) brightness(60%) contrast(80%) brightness(60%);
+  @Acrylic-filter: saturate(125%) brightness(125%) blur(30px) contrast(75%) saturate(250%) brightness(60%) contrast(80%) brightness(60%);
+	@mica-blend-color-first: ~"#202020cc";
+  @mica-blend-color-second: #202020;
+  @mica-alt-blend-color-first: transparent;
+  @mica-alt-blend-color-second: #0a0a0a;
+	@SubtleFillColorSecondary: ~"#FFFFFF0F";
+	@SubtleFillColorTertiary: ~"#FFFFFF0A";
+	@ControlAltFillColorSecondary: ~"#00000019";
+	@ControlAltFillColorTertiary: ~"#FFFFFF0B";
+	@ControlAltFillColorQuarternary: ~"#FFFFFF12";
+	@TextFillColorPrimary: white;
+	@TextFillColorSecondary: ~"#FFFFFFC5";
+	@TextFillColorTertiary: ~"#FFFFFF87";
+	@TextFillColorDisabled: ~"#FFFFFF5D";
+	@ControlStrongStrokeColorDefault: ~"#FFFFFF8B";
+	@ControlStrongStrokeColorDisabled: ~"#FFFFFF28";
+	@TextOnAccentFillColorPrimary: black;
+	@TextOnAccentFillColorSecondary: ~"#00000080";
+	@TextOnAccentFillColorDisabled: ~"#FFFFFF87";
+	@AccentFillColorDisabled: @ControlStrongStrokeColorDisabled;
 }
 
 .mica(@color, @isDark) {
@@ -63,3 +112,40 @@
         @micaAlt: saturate(average(average(fade(@color, 30%), black), @layer-1-color), 30%);
     }
 }
+
+.shadow2() {
+	--elevation-height: 2px;
+}
+
+.shadow4() {
+	--elevation-height: 4px;
+}
+
+.shadow8() {
+	--elevation-height: 8px;
+}
+
+.shadow16() {
+	--elevation-height: 16px;
+}
+
+.shadow28() {
+	--elevation-height: 28px;
+}
+
+.shadow64() {
+	--elevation-height: 64px;
+}
+
+@header-bg-light: saturate(average(average(fade(@config-primary-color, 30%), white), @layer-1-color), 30%);
+@header-bg-dark: saturate(average(average(fade(@config-primary-color, 30%), black), @layer-1-color), 30%);
+@backdrop: ~"#0000004D";
+@SurfaceStrokeColorDefault: fade(#757575, 40%);
+@shadow-outline-normal: 0 0 0 1px @Fluent-border;
+@shadow-outline-window: 0 0 0 1px @SurfaceStrokeColorDefault;
+@ControlFastOutSlowInKeySpline: ~"cubic-bezier(0, 0, 0, 1)";
+@ControlNormalAnimationDuration: 250ms;
+@ControlFastAnimationDuration: 167ms;
+@ControlFasterAnimationDuration: 83ms;
+@large-radius: 8px;
+@small-radius: 4px;

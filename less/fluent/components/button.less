@@ -1,0 +1,91 @@
+@import "../variables.less";
+
+.fluent-button(@accent) {
+	& when (@accent) {
+		color: @TextOnAccentFillColorPrimary;
+
+		& when (@config-dark-mode = false) {
+			background: ~"padding-box linear-gradient(var(--button-bg), var(--button-bg)), border-box linear-gradient(#ffffff14 90%, #00000066 100%), border-box var(--button-bg)";
+		}
+	
+		& when (@config-dark-mode = true) {
+			background: ~"padding-box linear-gradient(var(--button-bg), var(--button-bg)), border-box linear-gradient(#ffffff14 90%, #00000023 100%), border-box var(--button-bg)";
+		}
+		border: 1px solid transparent;
+		&:hover,
+		&:focus {
+			& when (@config-dark-mode = false) {
+				background: ~"padding-box linear-gradient(var(--button-bg-hover), var(--button-bg-hover)), border-box linear-gradient(#ffffff14 90%, #00000066 100%), border-box var(--button-bg-hover)";
+			}
+		
+			& when (@config-dark-mode = true) {
+				background: ~"padding-box linear-gradient(var(--button-bg-hover), var(--button-bg-hover)), border-box linear-gradient(#ffffff14 90%, #00000023 100%), border-box var(--button-bg-hover)";
+			}	
+		}
+	
+		&:active {
+			background: var(--button-bg-active);
+			color: @TextOnAccentFillColorSecondary;
+		}
+		&.disabled, &:disabled {
+			color: @TextOnAccentFillColorDisabled;
+			
+			& when (@config-dark-mode = false) {
+				background: ~"#00000037";
+				color: white;
+			}
+		
+			& when (@config-dark-mode = true) {
+				background: ~"#ffffff28";
+				color: ~"#ffffff87";
+			}
+		}
+	}
+	& when not (@accent) {
+		border: 1px solid transparent;
+		background: @button-color;
+		border-color: @button-border-color;
+		color: @TextFillColorPrimary;
+
+		&:hover,
+		&:focus {
+			background: @button-hover-color;
+		}
+		
+		&:active {
+			background: @button-active-color;
+			box-shadow: none;
+			border-color: @button-active-border-color;
+			color: @TextFillColorSecondary;
+		}
+		
+		&.disabled, &:disabled {
+			background: @button-active-color;
+			box-shadow: none;
+			color: @TextFillColorDisabled;
+			border: 1px solid @button-active-border-color;
+			opacity: 1;
+		}
+	}
+}
+
+.fluent-button-flat(@isHyperLink) {
+	& when (@isHyperLink) {
+		color: var(--link-color);
+	}
+
+	background: transparent;
+	border: none;
+	
+	&:hover {
+		background: @SubtleFillColorSecondary;
+	}
+
+	&:active {
+		background: @SubtleFillColorTertiary;;
+	}
+
+	&:disabled {
+		background: transparent;
+	}
+}

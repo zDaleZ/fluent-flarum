@@ -1,0 +1,49 @@
+// ------------------------------------
+// Loading Indicators
+
+.LoadingIndicator {
+  width: var(--size);
+  height: var(--size);
+  background-color: currentColor;
+	--animation-image: url("data:image/svg+xml,%3Csvg viewBox='5.963 5.963 21.940666 21.940666' version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:svg='http://www.w3.org/2000/svg'%3E%3Cg id='layer1'%3E%3Ccircle cx='16.933332' cy='16.933332' r='9.4701843' stroke='%23000' stroke-width='3' fill='none' stroke-dashoffset='' stroke-linecap='round' id='circlebar' stroke-dasharray='1 100'%3E %3CanimateTransform attributeName='transform' attributeType='AUTO' type='rotate' values='-95 16.933332 16.933332;355 16.933332 16.933332;985 16.933332 16.933332' dur='2s' repeatCount='indefinite' /%3E %3Canimate attributeName='stroke-dasharray' attributeType='AUTO' type='rotate' values='0.01 100;30 100;0.01 100' dur='2s' repeatCount='indefinite' /%3E%3C/circle%3E%3C/g%3E%3C/svg%3E");
+	-webkit-mask: var(--animation-image);
+	mask: var(--animation-image);
+
+  // <div> container around the spinner
+  // Used for positioning
+  &-container {
+    --size: 24px;
+    --thickness: 2px;
+    --muted-color: var(--primary-color);
+
+    color: var(--muted-color);
+
+    // Center vertically and horizontally
+    // Allows people to set `height` and it'll stay centered within the new height
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // Size
+
+    &--large {
+      --size: 32px;
+      --thickness: 3px;
+    }
+
+    &--small {
+      --size: 18px;
+    }
+
+    // Display types
+
+    &--block {
+      height: 100px;
+    }
+
+    &--inline {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+}

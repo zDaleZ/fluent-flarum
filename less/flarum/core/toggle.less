@@ -1,0 +1,162 @@
+@import '../../fluent/components/toggle.less';
+
+.Checkbox {
+  display: block;
+  cursor: pointer;
+  margin: 0;
+  position: relative;
+
+  input[type="checkbox"] {
+    position: absolute;
+    z-index: 1;
+
+    opacity: 0;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+
+    cursor: pointer;
+
+    .add-keyboard-focus-ring-nearby("+ .Checkbox-display");
+  }
+}
+.Checkbox--switch {
+  --left-pad: 65px;
+
+  padding-left: var(--left-pad);
+  margin: 5px 0;
+
+  input[type="checkbox"] {
+    top: -4px;
+    width: 50px;
+    height: 28px;
+  }
+
+  .Checkbox-display {
+    float: left;
+    margin-left: calc(~"0px - var(--left-pad)");
+    margin-top: -4px;
+  }
+}
+
+.Checkbox--switch .Checkbox-display {
+  padding: 3px;
+  position: relative;
+
+  .LoadingIndicator {
+    --size: 22px !important;
+
+    &-container {
+      height: 22px;
+    }
+  }
+
+  .on& {
+    .LoadingIndicator-container {
+      // Show loading indicator over the switch button
+      justify-content: flex-end;
+    }
+  }
+
+  .off& {
+    .LoadingIndicator-container {
+      // Show loading indicator over the switch button
+      justify-content: flex-start;
+    }
+  }
+
+  &:before {
+    left: 0;
+    top: 0;
+  }
+}
+.Checkbox-display {
+  font-size: 14px;
+
+  .on & {
+    color: var(--switch-on-color);
+  }
+  .off & {
+    color:var(--switch-off-color);
+  }
+  .disabled & {
+    color: var(--muted-more-color) !important;
+  }
+}
+.Checkbox--switch.loading {
+  color: var(--muted-more-color) !important;
+
+  .LoadingIndicator {
+    color: var(--muted-color-dark);
+  }
+}
+
+
+.Checkbox--switch {
+    .Checkbox-display {
+        .fluent-toggle-container.off-state.normal();
+
+        &:before {
+            .fluent-toggle-knob.off-state.normal();
+        }
+    }
+
+    &:hover .Checkbox-display {
+        .fluent-toggle-container.off-state.hover();
+
+        &:before {
+            .fluent-toggle-knob.off-state.hover();
+        }
+    }
+
+    &:active .Checkbox-display {
+        .fluent-toggle-container.off-state.active();
+
+        &:before {
+            .fluent-toggle-knob.off-state.active();
+        }
+    }
+
+    &.disabled .Checkbox-display {
+        .fluent-toggle-container.off-state.disabled();
+
+        &:before {
+            .fluent-toggle-knob.off-state.disabled();
+        }
+    }
+
+    .on&:not(.loading) .Checkbox-display {
+        .fluent-toggle-container.on-state.normal();
+
+        &:before {
+            .fluent-toggle-knob.on-state.normal();
+            
+            left: 0;
+        }
+    }
+
+    .on&:not(.loading):hover .Checkbox-display {
+        &:before {
+            .fluent-toggle-knob.on-state.hover();
+        }
+    }
+
+    .on&:not(.loading):active .Checkbox-display {
+        &:before {
+            .fluent-toggle-knob.on-state.active();
+        }
+    }
+
+    .on&.disabled:not(.loading) .Checkbox-display {
+        .fluent-toggle-container.on-state.disabled();
+
+        &:before {
+            .fluent-toggle-knob.on-state.disabled();
+        }
+    }
+}

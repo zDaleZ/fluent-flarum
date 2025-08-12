@@ -1,0 +1,24 @@
+@import "../variables.less";
+
+.fluent-object() {
+	border: 1px solid transparent;
+	background: @button-color;
+	border-color: @Fluent-border;
+	color: var(--text-color);
+
+	&:hover {
+		background: @button-hover-color;
+		border-color: @button-border-color;
+	}
+	
+	&:active {
+		background: @button-active-color;
+		border-color: @button-active-border-color;
+	}
+	
+	&.disabled, &:disabled {
+		background: @button-active-color;
+		color: var(--text-color);
+		border: 1px solid @button-active-border-color;
+	}
+}
