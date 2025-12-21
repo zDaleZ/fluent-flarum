@@ -24,7 +24,7 @@
   color: var(--text-color);
   .type-ramp.body();
 
-  .open & {
+  .open > & {
     display: block;
   }
 
@@ -110,7 +110,7 @@
 }
 .Dropdown-separator {
   margin: 8px 0;
-  background-color: var(--control-bg);
+  background-color: @SeperateLineColor;
   height: 1px;
 }
 
@@ -167,6 +167,7 @@
     position: static;
     background: none;
     box-shadow: none;
+    backdrop-filter: none;
   }
 }
 

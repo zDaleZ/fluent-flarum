@@ -53,15 +53,20 @@ flarum_admin_app__WEBPACK_IMPORTED_MODULE_0___default().initializers.add(withID(
     label: trans(withID(".admin.background_label")),
     type: "select",
     options: {
-      solid: trans(withID(".admin.solid")),
+      // solid: trans(withID(".admin.solid")),
       bing_red: trans(withID(".admin.bing_red")),
       bing_green: trans(withID(".admin.bing_green")),
       bing_blue: trans(withID(".admin.bing_blue")),
       mica_accent: trans(withID(".admin.mica_accent")),
-      mica_colorful: trans(withID(".admin.mica_colorful")),
-      custom: trans(withID(".admin.custom"))
+      mica_colorful: trans(withID(".admin.mica_colorful"))
+      // custom: trans(withID(".admin.custom"))
     },
     "default": "solid"
+  }).registerSetting({
+    setting: withID(".disableViewTransition"),
+    label: trans(withID(".admin.disable_vt_label")),
+    help: trans(withID(".admin.disable_vt_help")),
+    type: "boolean"
   });
 });
 

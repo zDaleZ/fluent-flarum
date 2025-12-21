@@ -133,6 +133,43 @@ var DiscussionLoadingItem = /*#__PURE__*/function (_Component) {
 
 /***/ }),
 
+/***/ "./src/forum/dropdownHook/index.js":
+/*!*****************************************!*\
+  !*** ./src/forum/dropdownHook/index.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ hookDropdown)
+/* harmony export */ });
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var flarum_common_components_Dropdown__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! flarum/common/components/Dropdown */ "flarum/common/components/Dropdown");
+/* harmony import */ var flarum_common_components_Dropdown__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(flarum_common_components_Dropdown__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! flarum/common/extend */ "flarum/common/extend");
+/* harmony import */ var flarum_common_extend__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function hookDropdown() {
+  (0,flarum_common_extend__WEBPACK_IMPORTED_MODULE_2__.extend)((flarum_common_components_Dropdown__WEBPACK_IMPORTED_MODULE_1___default().prototype), 'oncreate', function () {
+    var _this = this;
+    this.$().on('hide.bs.dropdown', function (e) {
+      var childrenDropdown = _this.$().children('.open.Dropdown');
+      console.log(childrenDropdown);
+      if (childrenDropdown.length) return false;
+    });
+    this.$().on('hidden.bs.dropdown', function (e) {
+      var parentDropdown = _this.$().parents('.Dropdown');
+      console.log('hi');
+    });
+  });
+}
+
+/***/ }),
+
 /***/ "./src/forum/globalHeader/backButtonAndHomeLink.js":
 /*!*********************************************************!*\
   !*** ./src/forum/globalHeader/backButtonAndHomeLink.js ***!
@@ -214,8 +251,14 @@ var homeLinkComponent = /*#__PURE__*/function (_Component2) {
     });
   };
   _proto2.oncreate = function oncreate(vnode) {
-    var _vnode$dom$children$;
-    (_vnode$dom$children$ = vnode.dom.children[0]).append.apply(_vnode$dom$children$, homeLinkChilds);
+    var _linkEles;
+    var theButton = vnode.dom.children[0];
+    theButton.append.apply(theButton, homeLinkChilds);
+    if (theButton.matches('img')) return;
+    var linkEles = document.head.querySelectorAll('[rel~=icon]');
+    var linkNum = linkEles.length;
+    if (linkNum == 0) return;
+    theButton.dataset.favicon = (_linkEles = linkEles[linkNum - 1]) == null ? void 0 : _linkEles.href;
   };
   return homeLinkComponent;
 }((flarum_common_Component__WEBPACK_IMPORTED_MODULE_2___default()));
@@ -348,6 +391,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _discussionPage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./discussionPage */ "./src/forum/discussionPage/index.js");
 /* harmony import */ var _globalHeader__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./globalHeader */ "./src/forum/globalHeader/index.js");
 /* harmony import */ var _PostStreamScrubberHook__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./PostStreamScrubberHook */ "./src/forum/PostStreamScrubberHook/index.js");
+/* harmony import */ var _dropdownHook__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./dropdownHook */ "./src/forum/dropdownHook/index.js");
+/* harmony import */ var _viewTransition_index__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./viewTransition/index */ "./src/forum/viewTransition/index.js");
 
 
 /*
@@ -358,6 +403,8 @@ __webpack_require__.r(__webpack_exports__);
  *  For detailed copyright and license information, please view the
  *  LICENSE-SCRIPT file that was distributed with this source code.
  */
+
+
 
 
 
@@ -445,6 +492,8 @@ flarum_forum_app__WEBPACK_IMPORTED_MODULE_2___default().initializers.add(withID(
   (0,_discussionPage__WEBPACK_IMPORTED_MODULE_4__["default"])();
   (0,_globalHeader__WEBPACK_IMPORTED_MODULE_5__["default"])();
   (0,_PostStreamScrubberHook__WEBPACK_IMPORTED_MODULE_6__["default"])();
+  // hookDropdown();
+  if (data['dalez_fluent_flarum.disableViewTransition'] != "1") (0,_viewTransition_index__WEBPACK_IMPORTED_MODULE_8__["default"])();
 });
 
 /***/ }),
@@ -518,6 +567,284 @@ function addUserCardToSessionDropdown() {
 
 /***/ }),
 
+/***/ "./src/forum/viewTransition/cachePool.js":
+/*!***********************************************!*\
+  !*** ./src/forum/viewTransition/cachePool.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! flarum/forum/app */ "flarum/forum/app");
+/* harmony import */ var flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(flarum_forum_app__WEBPACK_IMPORTED_MODULE_0__);
+/*
+ *  This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
+
+var pool = (flarum_forum_app__WEBPACK_IMPORTED_MODULE_0___default().cache).flunet_internal_pool = {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (pool);
+
+/***/ }),
+
+/***/ "./src/forum/viewTransition/grabEvent.js":
+/*!***********************************************!*\
+  !*** ./src/forum/viewTransition/grabEvent.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _cachePool__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cachePool */ "./src/forum/viewTransition/cachePool.js");
+/*
+ *  This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
+
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__() {
+  function grab(event) {
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].click_event = event;
+  }
+  document.addEventListener('click', grab, {
+    capture: true
+  });
+}
+
+/***/ }),
+
+/***/ "./src/forum/viewTransition/hookMithril.js":
+/*!*************************************************!*\
+  !*** ./src/forum/viewTransition/hookMithril.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ hookMithril)
+/* harmony export */ });
+/* harmony import */ var _cachePool__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cachePool */ "./src/forum/viewTransition/cachePool.js");
+/*
+ *  This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
+
+function hookMithril() {
+  // backup the origional functions
+
+  m.route.oldSet = m.route.set;
+  m.sync = m.redraw.sync;
+
+  // hook
+
+  m.route.set = function () {
+    var _m$route;
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'true';
+    (_m$route = m.route).oldSet.apply(_m$route, arguments);
+    return;
+  };
+
+  // (what does the codes below do? I just forgot...)
+  // maybe it has no use. disable it to see what'll happen.
+
+  /*
+  m.redraw = () => {
+          if (!window.pending) {
+              window.pending = true;
+              window.rAF(function() {
+                  pending = false;
+                  m.redraw.sync();
+              })
+          }
+      }
+  */
+
+  // restore
+
+  m.redraw.sync = m.sync;
+
+  // hook `popstate` event so that the transition can be available
+  // when user starts their navigation with buttons provided by
+  // browser.
+
+  window.addEventListener('popstate', function () {
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'true';
+  }, true);
+}
+
+/***/ }),
+
+/***/ "./src/forum/viewTransition/index.js":
+/*!*******************************************!*\
+  !*** ./src/forum/viewTransition/index.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _flarum_core_forum__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @flarum/core/forum */ "@flarum/core/forum");
+/* harmony import */ var _flarum_core_forum__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_flarum_core_forum__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _transitionController__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./transitionController */ "./src/forum/viewTransition/transitionController.js");
+/* harmony import */ var _grabEvent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./grabEvent */ "./src/forum/viewTransition/grabEvent.js");
+/* harmony import */ var _hookMithril__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./hookMithril */ "./src/forum/viewTransition/hookMithril.js");
+/*
+ *  This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (function () {
+  if (!document.startViewTransition) return;
+  (0,_grabEvent__WEBPACK_IMPORTED_MODULE_2__["default"])();
+  (0,_hookMithril__WEBPACK_IMPORTED_MODULE_3__["default"])();
+  Object.assign(_flarum_core_forum__WEBPACK_IMPORTED_MODULE_0__.compat, {
+    'utils/fluent_internal_transition_controller': _transitionController__WEBPACK_IMPORTED_MODULE_1__["default"]
+  });
+  window.requestAnimationFrame = window.rAF;
+});
+
+/***/ }),
+
+/***/ "./src/forum/viewTransition/transitionController.js":
+/*!**********************************************************!*\
+  !*** ./src/forum/viewTransition/transitionController.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ controller)
+/* harmony export */ });
+/* harmony import */ var _cachePool__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cachePool */ "./src/forum/viewTransition/cachePool.js");
+/*
+ *  This file is part of dalez/fluent-flarum
+ *
+ *  Copyright (c) 2025 DaleZ.
+ *
+ *  For detailed copyright and license information, please view the
+ *  LICENSE-SCRIPT file that was distributed with this source code.
+ */
+
+
+var pool = _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].pool = [];
+var content = document.getElementById('content');
+function markFirstCriticalElements() {
+  if (!_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].click_event) return;
+
+  /**
+   * @type {HTMLElement}
+   */
+  var clicked = _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].click_event.target;
+
+  // clear the event pool
+
+  _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].click_event = null;
+  try {
+    var transitionItem = clicked.closest(".DiscussionListItem, .UserCard, .PostsUserPage");
+    if (!transitionItem) return;
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].beforeElement = transitionItem;
+    transitionItem.style.viewTransitionName = 'keyItem';
+  } catch (error) {
+    console.warn("Seems like the selector is invalid. More info: " + error);
+  }
+}
+function markSecondCriticalElements() {
+  try {
+    var transitionItem = content.querySelector(".DiscussionPage-stream, .UserHero");
+    if (!transitionItem) return;
+
+    // the before element may still keeps in dom tree
+    // and it can't stay with the after element.
+    // since it've been captured, we removes its name here.
+
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].beforeElement.style.viewTransitionName = '';
+
+    // add the name for the after element.
+
+    transitionItem.style.viewTransitionName = 'keyItem';
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].afterElement = transitionItem;
+  } catch (error) {
+    console.warn("Seems like the selector is invalid. More info: " + error);
+  }
+}
+function controller(func) {
+  // Is this condition still necessary?
+  if (_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling == 'processing') {
+    pool.push(func);
+    return;
+  }
+  if (_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling == 'true') {
+    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'processing';
+    markFirstCriticalElements();
+    var view = document.startViewTransition(function () {
+      func();
+      markSecondCriticalElements();
+    });
+    view.updateCallbackDone.then(function () {
+      _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'false';
+      var i;
+      while (typeof (i = pool.shift()) !== "undefined") {
+        window.rAF(i);
+      }
+    });
+    if (_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].afterElement) view.finished.then(function () {
+      return _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].afterElement.style.viewTransitionName = '';
+    });
+    return;
+  }
+
+  // Browser's back & Next navigation will broke our whole logic.
+  // Do the special for it...But since it has been fixed at hookmithril.js,
+  // maybe it can be removed?
+
+  window.rAF(func);
+}
+
+/***/ }),
+
+/***/ "@flarum/core/forum":
+/*!******************************!*\
+  !*** external "flarum.core" ***!
+  \******************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core;
+
+/***/ }),
+
 /***/ "flarum/common/Component":
 /*!*********************************************************!*\
   !*** external "flarum.core.compat['common/Component']" ***!
@@ -526,6 +853,17 @@ function addUserCardToSessionDropdown() {
 
 "use strict";
 module.exports = flarum.core.compat['common/Component'];
+
+/***/ }),
+
+/***/ "flarum/common/components/Dropdown":
+/*!*******************************************************************!*\
+  !*** external "flarum.core.compat['common/components/Dropdown']" ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = flarum.core.compat['common/components/Dropdown'];
 
 /***/ }),
 

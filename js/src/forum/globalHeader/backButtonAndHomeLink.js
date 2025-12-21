@@ -51,7 +51,17 @@ class homeLinkComponent extends Component {
     }
 
     oncreate(vnode) {
-        vnode.dom.children[0].append(...homeLinkChilds);
+        const theButton = vnode.dom.children[0];
+        theButton.append(...homeLinkChilds);
+
+        if (theButton.matches('img')) return;
+        
+        const linkEles = document.head.querySelectorAll('[rel~=icon]');
+        const linkNum = linkEles.length;
+
+        if (linkNum == 0) return;
+
+        theButton.dataset.favicon = linkEles[linkNum - 1]?.href;
     }
 }
 

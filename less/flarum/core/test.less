@@ -60,17 +60,18 @@
 
 .Dropdown-menu {
   .normal() {
-    transition-property: height, box-shadow;
+    transition-property: height, box-shadow, overflow-y;
     transition-duration: @ControlNormalAnimationDuration;
     transition-timing-function: @ControlFastOutSlowInKeySpline;
     interpolate-size: allow-keywords;
+    transition-behavior: allow-discrete;
   }
 
   .Dropdown-menu.normal();
 
   .open & {
     height: max-content;
-    overflow-y: hidden;
+    overflow-y: visible;
   }
 }
 
@@ -78,5 +79,38 @@
   .open .Dropdown-menu, .FormControl::picker(select):popover-open {
     height: 0;
     box-shadow: none;
+    overflow-y: hidden;
   }
+}
+
+.SessionDropdown li.item-SessionUserCard {
+  display: none;
+}
+
+::view-transition-group(keyItem) {
+    animation-name: -ua-view-transition-group-anim-keyItem, gravity;
+    animation-duration: 0.3s;
+    animation-composition: replace, add;
+    animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(keyItem), ::view-transition-new(keyItem) {
+    height: 100%;
+    animation-duration: 0.3s;
+}
+
+@keyframes gravity {
+    0% {
+        transform: translateY(0px);
+        animation-timing-function: cubic-bezier(0.35, 0, 0.55, 1);
+    }
+
+    33% {
+        transform: translateY(80px);
+        animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
 }

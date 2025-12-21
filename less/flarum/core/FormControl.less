@@ -1,0 +1,51 @@
+@import "../../fluent/variables.less";
+@import "../../fluent/components/typography.less";
+@import "../../fluent/components/TextBox.less";
+
+.FormControl {
+  display: block;
+  width: 100%;
+  height: 36px;
+  padding: 8px 13px;
+  .type-ramp.body();
+  line-height: 1.5;
+  .fluent-text-box.normal();
+  .fluent-text-box.text.normal();
+  -webkit-appearance: none;
+
+  &:focus {
+    .fluent-text-box.active();
+    outline: none;
+  }
+
+  // Placeholder
+  .placeholder(@TextFillColorSecondary);
+
+  // Disabled and read-only inputs
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    .fluent-text-box.disabled();
+    .fluent-text-box.text.disabled();
+    .placeholder(@TextFillColorDisabled);
+  }
+
+  &[disabled],
+  fieldset[disabled] & {
+    cursor: not-allowed;
+  }
+
+  textarea& {
+    height: auto;
+  }
+
+  @media @phone {
+    font-size: 16px; // minimum font-size required to prevent page zoom on focus in iOS 10
+  }
+}
+
+.helpText {
+  .type-ramp.caption();
+  margin-bottom: 10px;
+  color: var(--muted-color);
+}

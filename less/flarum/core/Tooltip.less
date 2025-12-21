@@ -1,0 +1,43 @@
+@import "../../fluent/components/typography.less";
+@import "../../fluent/components/acrylic.less";
+
+// ------------------------------------
+// Tooltips
+
+// Base class
+.tooltip {
+  --tooltip-arrow-width: @tooltip-arrow-width;
+
+  position: absolute;
+  z-index: var(--zindex-tooltip);
+  display: block;
+  .type-ramp.caption();
+  opacity: 0;
+  transition: opacity @ControlFastAnimationDuration linear;
+
+  &.in     { opacity: 1; }
+  &.top    { margin-top:  -3px; padding: var(--tooltip-arrow-width) 0; }
+  &.right  { margin-left:  3px; padding: 0 var(--tooltip-arrow-width); }
+  &.bottom { margin-top:   3px; padding: var(--tooltip-arrow-width) 0; }
+  &.left   { margin-left: -3px; padding: 0 var(--tooltip-arrow-width); }
+}
+
+// Wrapper for the tooltip content
+.tooltip-inner {
+  max-width: 200px;
+  padding: 7px 12px;
+  color: var(--tooltip-color);
+  text-align: center;
+  text-decoration: none;
+  .fluent-acrylic(true);
+  box-shadow: @shadow-outline-normal, @low-elevation-ramp;
+  .shadow4();
+  border-radius: var(--border-radius);
+}
+
+// Arrows
+@tooltip-arrow-width: 5px;
+
+.tooltip-arrow {
+  display: none;
+}

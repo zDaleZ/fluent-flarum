@@ -1,0 +1,71 @@
+@import "../variables.less";
+
+.fluent-slider-track(@direction: horizontal, @value: 0%) {
+  .direction() when (@direction = vertical) {
+    width: 4px;
+    @to: ~"bottom";
+  }
+
+  .direction() when (@direction = horizontal) {
+    height: 4px;
+    @to: ~"right";
+  }
+
+  .fluent-slider-track.direction();
+
+  border-radius: 4px;
+  background-image: linear-gradient(to @to, var(--primary-color) @value, @ControlStrongStrokeColorDefault @value);
+}
+
+.fluent-slider-thumb() {
+  .normal() {
+    border-width: 1px;
+    border-style: solid;
+    border-color: @button-border-color;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    background: padding-box linear-gradient(@ControlSolidFillColorDefault, @ControlSolidFillColorDefault) transparent;
+  }
+
+  .disabled() {
+    filter: grayscale(1);
+  }
+
+  .normal-pseudo() {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    translate: 3px 3px;
+    transition: scale @ControlNormalAnimationDuration @ControlFastOutSlowInKeySpline;
+  }
+
+  .hover-pseudo() {
+    scale: 14 / 12;
+  }
+
+  .active-pseudo() {
+    scale: 10 / 12;
+  }
+
+  .disabled-pseudo() {
+    .fluent-slider-thumb.disabled();
+  }
+
+  .fluent-slider-thumb.normal();
+
+  &:before {
+    .fluent-slider-thumb.normal-pseudo();
+  }
+
+  &:hover {
+    .fluent-slider-thumb.hover-pseudo();
+  }
+
+  &:active {
+    .fluent-slider-thumb.active-pseudo();
+  }
+}

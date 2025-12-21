@@ -1,0 +1,22 @@
+/*
+
+  **Note: **
+
+  FLuent is not designed for admin dashboard, but due to our new
+  less loading mechanism, some of the fluent style may applied
+  to the admin dashboard, but some parts that the style required
+  won't be added for admin dashboard automatically. To make sure
+  the admin dashboard continue working as usual, we added minimum
+  styles. Unless something went wrong with `overrideLessImport` in
+  `extend.php`, we won't add things to `admin.less`.
+
+*/
+
+// Add required variables to fix dropdown
+
+@import "./fluent/components/acrylic.less";
+
+:root {
+  .fluent-acrylic-unavailable();
+  --noise-asset: none;
+}

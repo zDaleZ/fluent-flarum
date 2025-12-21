@@ -8,8 +8,8 @@
  *  that was distributed with this source code.
  */
 
-.define-variables(@config-dark-mode);
-.define-variables(false) {
+.define-fluent-variables(@config-dark-mode);
+.define-fluent-variables(false) {
 	@layer-1-color: #e8e8e8;
 	@layer-2-color: #f9f9f9;
 	@layer-3-color: #fdfdfd;
@@ -25,15 +25,19 @@
 	@button-color: ~"padding-box linear-gradient(#ffffffb3, #ffffffb3)";
 	@button-hover-color: ~"#f9f9f980";
 	@button-active-color: ~"#f9f9f94d";
+	@text-input-border-color: @ControlStrokeColorDefault @ControlStrokeColorDefault @ControlStrongStrokeColorDefault;
 	@menu-item-hover: ~"#00000009";
 	@menu-item-active: ~"#00000006";
 	@ControlFillColorDefault: ~"#FFFFFFB3";
+	@ControlFillColorSecondary: ~"#F9F9F980";
 	@ControlFillColorInputActive: white;
+	@ControlFillColorDisabled: ~"#F9F9F94D";
 	@low-elevation-ramp: ~"0px calc(0.5 * var(--elevation-height)) calc(1 * var(--elevation-height)) 0px" fade(#000, 14%), ~"0px calc(0.5 * var(--elevation-height)) calc(1 * var(--elevation-height)) 0" fade(#000, 14%);
 	@high-elevation-ramp: ~"0px calc(0.5 * var(--elevation-height)) calc(1 * var(--elevation-height)) 0px" fade(#000, 24%), ~"0px 0px 8px 0px" fade(#000, 20%);
 	@Acrylic-bg: rgba(255, 255, 255, 0.6);
-	@Text-Input: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(~"#0000000F" ~"calc(100% - 1px)", ~"#00000072" ~"calc(100% - 1px)", ~"#00000072");
-	@Text-Input-focus: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(~"#0000000F" ~"calc(100% - 2px)", var(--primary-color) ~"calc(100% - 2px)", var(--primary-color)) !important;
+	@Text-Input: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault);
+	@Text-Input-hover: padding-box linear-gradient(@ControlFillColorSecondary, @ControlFillColorSecondary);
+	@Text-Input-focus: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(transparent ~"calc(100% - 2px)", var(--primary-color) ~"calc(100% - 2px)", var(--primary-color)) !important;
   @Acrylic-filter: contrast(45%) blur(30px) saturate(1.25) brightness(135%);
 	@mica-blend-color-first: ~"#f3f3f380";
   @mica-blend-color-second: #f3f3f3;
@@ -48,14 +52,17 @@
 	@TextFillColorSecondary: ~"#0000009E";
 	@TextFillColorTertiary: ~"#00000072";
 	@TextFillColorDisabled: ~"#0000005C";
+	@ControlStrokeColorDefault: ~"#0000000F";
 	@ControlStrongStrokeColorDefault: ~"#00000072";
 	@ControlStrongStrokeColorDisabled: ~"#00000037";
 	@TextOnAccentFillColorPrimary: white;
 	@TextOnAccentFillColorSecondary: ~"#FFFFFFB3";
 	@TextOnAccentFillColorDisabled: white;
 	@AccentFillColorDisabled: @ControlStrongStrokeColorDisabled;
+	@ControlSolidFillColorDefault: white;
+	@SeperateLineColor: ~"#0000000f";
 }
-.define-variables(true) {
+.define-fluent-variables(true) {
 	@layer-1-color: #202020;
 	@layer-2-color: #272727;
 	@layer-3-color: #323232;
@@ -68,19 +75,24 @@
 	@titlebar-bg: @header-bg-dark;
 	@button-border-color: ~"#ffffff18 #ffffff12 #ffffff12";
 	@button-active-border-color: ~"#ffffff12";
+	@text-input-border-color: @ControlStrokeColorDefault @ControlStrokeColorDefault @ControlStrongStrokeColorDefault;
 	@button-color: ~"padding-box linear-gradient(#ffffff0f, #ffffff0f)";
 	@button-hover-color: ~"#ffffff15";
 	@button-active-color: ~"#ffffff08";
 	@menu-item-hover: ~"#ffffff0f";
 	@menu-item-active: ~"#ffffff0a";
 	@ControlFillColorDefault: ~"#FFFFFF0F";
+	@ControlFillColorSecondary: ~"#FFFFFF15";
 	@ControlFillColorInputActive: ~"#1E1E1EB3";
+	@ControlFillColorDisabled: ~"#FFFFFF0B";
 	@low-elevation-ramp: ~"0px calc(0.5 * var(--elevation-height)) calc(1 * var(--elevation-height)) 0px" fade(#000, 28%), ~"0px calc(0.5 * var(--elevation-height)) calc(1 * var(--elevation-height)) 0px" fade(#000, 14%);
 	@high-elevation-ramp: ~"0px calc(0.5 * var(--elevation-height)) calc(1 * var(--elevation-height)) 0px" fade(#000, 28%), ~"0px 0px 2px 0px" fade(#000, 20%);
 	@Acrylic-bg: transparent;
-	@Text-Input: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault), border-box linear-gradient(~"#FFFFFF12" ~"calc(100% - 1px)", ~"#FFFFFF8B" ~"calc(100% - 1px)", ~"#FFFFFF8B");
-	@Text-Input-focus: padding-box linear-gradient(@ControlFillColorInputActive, @ControlFillColorInputActive), border-box linear-gradient(~"#FFFFFF12" ~"calc(100% - 2px)", var(--primary-color) ~"calc(100% - 2px)", var(--primary-color)) !important;
-  @Acrylic-filter: saturate(125%) brightness(125%) blur(30px) contrast(75%) saturate(250%) brightness(60%) contrast(80%) brightness(60%);
+	@Text-Input: padding-box linear-gradient(@ControlFillColorDefault, @ControlFillColorDefault);
+	@Text-Input-hover: padding-box linear-gradient(@ControlFillColorSecondary, @ControlFillColorSecondary);
+	@Text-Input-focus: padding-box linear-gradient(@ControlFillColorInputActive, @ControlFillColorInputActive), border-box linear-gradient(transparent ~"calc(100% - 2px)", var(--primary-color) ~"calc(100% - 2px)", var(--primary-color)) !important;
+	@TextControlElevationBorder: 0;
+	@Acrylic-filter: saturate(125%) brightness(125%) blur(30px) contrast(75%) saturate(250%) brightness(60%) contrast(80%) brightness(60%);
 	@mica-blend-color-first: ~"#202020cc";
   @mica-blend-color-second: #202020;
   @mica-alt-blend-color-first: transparent;
@@ -94,12 +106,15 @@
 	@TextFillColorSecondary: ~"#FFFFFFC5";
 	@TextFillColorTertiary: ~"#FFFFFF87";
 	@TextFillColorDisabled: ~"#FFFFFF5D";
+	@ControlStrokeColorDefault: ~"#FFFFFF12";
 	@ControlStrongStrokeColorDefault: ~"#FFFFFF8B";
 	@ControlStrongStrokeColorDisabled: ~"#FFFFFF28";
 	@TextOnAccentFillColorPrimary: black;
 	@TextOnAccentFillColorSecondary: ~"#00000080";
 	@TextOnAccentFillColorDisabled: ~"#FFFFFF87";
 	@AccentFillColorDisabled: @ControlStrongStrokeColorDisabled;
+	@ControlSolidFillColorDefault: #454545;
+	@SeperateLineColor: ~"#ffffff15";
 }
 
 .mica(@color, @isDark) {

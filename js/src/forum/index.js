@@ -12,6 +12,8 @@ import addUserCardToSessionDropdown from './userSessionDropdown/index';
 import hookDiscussionPageLoading from './discussionPage';
 import hookGlobalHeader from './globalHeader';
 import hookScrubber from './PostStreamScrubberHook';
+import hookDropdown from './dropdownHook';
+import viewTransition from './viewTransition/index';
 
 function withID(more = "") {
     return `dalez-fluent-flarum${more}`;
@@ -64,4 +66,6 @@ app.initializers.add(withID(), () => {
     hookDiscussionPageLoading();
     hookGlobalHeader();
     hookScrubber();
+    // hookDropdown();
+    if (data['dalez_fluent_flarum.disableViewTransition'] != "1") viewTransition();
 });

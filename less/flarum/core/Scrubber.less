@@ -1,0 +1,126 @@
+@import "../../fluent/components/slider.less";
+
+.Scrubber {
+  & a {
+    margin-left: -1px;
+    color: var(--muted-color);
+
+    & .fa {
+      font-size: 14px;
+      margin-right: 2px;
+    }
+    &:hover, &:focus {
+      text-decoration: none;
+      color: var(--link-color);
+    }
+  }
+}
+.Scrubber-scrollbar {
+  margin: 8px 0 8px 3px;
+  height: 300px;
+  min-height: 50px; // JavaScript sets a max-height
+  position: relative;
+  cursor: pointer;
+
+  .user-select(none);
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+
+    .fluent-slider-track(vertical, var(--progress));
+
+    height: 100%;
+  }
+}
+.Scrubber-unread {
+  position: absolute;
+  border-left: 1px solid var(--muted-color-light);
+  width: 100%;
+  background-image: linear-gradient(to right, var(--control-bg), transparent 10px, transparent);
+  display: flex;
+  align-items: center;
+  color: var(--muted-color);
+  text-transform: uppercase;
+  font-size: 11px;
+  font-weight: bold;
+  padding-left: 13px;
+}
+.Scrubber-handle {
+  display: flex;
+	align-items: center;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  width: 100%;
+  padding: 5px 0;
+  cursor: move;
+}
+.Scrubber-bar {
+  .fluent-slider-thumb.normal();
+  float: left;
+  margin-left: -2px;
+  transition: background 0.2s;
+  translate: -6px 0;
+
+  &::after {
+    .fluent-slider-thumb.normal-pseudo();
+  }
+
+  &:not(.disabled .Scrubber-bar) {
+    .Scrubber-handle:hover > &::after {
+      .fluent-slider-thumb.hover-pseudo();
+    }
+
+    .Scrubber-handle:active > &::after {
+      .fluent-slider-thumb.active-pseudo();
+    }
+  }
+
+  .disabled & {
+    .fluent-slider-thumb.disabled();
+
+    &::after {
+      .fluent-slider-thumb.disabled-pseudo();
+    }
+  }
+}
+.Scrubber-info {
+  margin-top: -1.5em;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  left: 15px;
+
+  & strong {
+    display: block;
+  }
+}
+.Scrubber-description {
+  color: var(--muted-color);
+}
+
+@media @phone {
+  .PostStreamScrubber {
+    .Dropdown-toggle {
+      font-size: 14px;
+    }
+    .Dropdown-menu {
+      padding: 30px;
+      font-size: 13px;
+    }
+  }
+  .Scrubber-scrollbar {
+    height: 40vh !important;
+    max-height: none !important;
+  }
+}
+
+@media @tablet-up {
+  .PostStreamScrubber {
+    margin: 30px 0 0 0;
+
+    .Dropdown--expanded();
+  }
+}

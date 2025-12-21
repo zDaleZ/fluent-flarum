@@ -1,0 +1,45 @@
+@import "../variables.less";
+
+.fluent-text-box() {
+  .normal() {
+    border-radius: @small-radius;
+    border: 1px solid transparent;
+    border-color: @text-input-border-color;
+    background: @Text-Input;
+  }
+
+  .hover() {
+    background: @Text-Input-hover;
+  }
+
+  .active() {
+    background: @Text-Input-focus;
+    border-width: 1px 1px 2px 1px;
+    border-color: @ControlStrokeColorDefault;
+  }
+
+  .disabled() {
+    background: @ControlFillColorDisabled;
+    border-color: @ControlStrokeColorDefault;
+  }
+
+  .text() {
+    .normal() {
+      color: @TextFillColorPrimary;
+    }
+
+    .disabled() {
+      color: @TextFillColorDisabled;
+    }
+  }
+
+  .placeholder() {
+    .normal() {
+      color: @TextFillColorSecondary;
+    }
+
+    .disabled() {
+      color: @TextFillColorDisabled;
+    }
+  }
+}
