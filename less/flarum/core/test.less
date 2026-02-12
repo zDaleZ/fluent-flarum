@@ -59,27 +59,16 @@
 }
 
 .Dropdown-menu {
-  .normal() {
-    transition-property: height, box-shadow, overflow-y;
-    transition-duration: @ControlNormalAnimationDuration;
-    transition-timing-function: @ControlFastOutSlowInKeySpline;
-    interpolate-size: allow-keywords;
-    transition-behavior: allow-discrete;
-  }
-
-  .Dropdown-menu.normal();
-
   .open & {
-    height: max-content;
-    overflow-y: visible;
-  }
-}
+    animation-name: show, showshadow;
+    animation-duration: @ControlNormalAnimationDuration;
+    animation-timing-function: @ControlFastOutSlowInKeySpline;
+    animation-fill-mode: backwards;
+    animation-delay: 0ms, @ControlNormalAnimationDuration;
 
-@starting-style {
-  .open .Dropdown-menu, .FormControl::picker(select):popover-open {
-    height: 0;
-    box-shadow: none;
-    overflow-y: hidden;
+    &--top {
+      animation-name: showfromtop, showshadow;
+    }
   }
 }
 
@@ -112,5 +101,35 @@
 
     100% {
         transform: translateY(0px);
+    }
+}
+
+@keyframes show {
+    from {
+        clip-path: inset(100% 0 0 0);
+        translate: 0 -100%;
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+        translate: 0 0;
+    }
+}
+
+@keyframes showfromtop {
+    from {
+        clip-path: inset(0 0 100% 0);
+        translate: 0 100%;
+    }
+
+    to {
+        clip-path: inset(0 0 0 0);
+        translate: 0 0;
+    }
+}
+
+@keyframes showshadow {
+    from {
+        box-shadow: none
     }
 }
