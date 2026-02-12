@@ -46,8 +46,8 @@ app.initializers.add(withID(), () => {
         bing_red: trans(withID(".admin.bing_red")),
         bing_green: trans(withID(".admin.bing_green")),
         bing_blue: trans(withID(".admin.bing_blue")),
-        mica_accent: trans(withID(".admin.mica_accent")),
-        mica_colorful: trans(withID(".admin.mica_colorful")),
+        // mica_accent: trans(withID(".admin.mica_accent")),
+        // mica_colorful: trans(withID(".admin.mica_colorful")),
         // custom: trans(withID(".admin.custom"))
       },
       default: "solid",
