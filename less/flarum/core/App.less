@@ -1,17 +1,20 @@
 @media @tablet-up {
   #header > .container {
-    display: flex;
+    display: grid;
+    grid-template: "0 a b c 9" / 0 1fr auto 1fr 0;
   }
 
   .App-navigation {
-    display: none;
+    &:extend(.Header-navigation);
   }
   .Header-navigation {
     display: none;
   }
+  /*
   .Header-primary {
     flex: 1 1 0;
   }
+  */
   .Header-title {
     &:extend(.Header-navigation);
   }
@@ -21,13 +24,14 @@
     & > .Header-controls {
         display: flex;
         justify-content: flex-end;
+        flex-wrap: wrap;
     }
   }
   .Header-search {
-    min-width: 150px;
-    max-width: 750px;
+    // min-width: 150px;
+    // max-width: 750px;
     width: auto;
-    flex: 0.5 1 0;
+    // flex: 0.5 1 0;
   }
   .Search.focused {
     margin-left: 0;
