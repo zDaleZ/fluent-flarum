@@ -1,6 +1,6 @@
-import app from "flarum/forum/app";
-import Component from "flarum/common/Component";
-import LinkButton from "flarum/common/components/LinkButton";
+import app from 'flarum/forum/app';
+import Component from 'flarum/common/Component';
+import LinkButton from 'flarum/common/components/LinkButton';
 
 function backUrl() {
     if (app?.history?.canGoBack()) return app?.history?.backUrl();
@@ -21,7 +21,7 @@ class backButtonComponent extends Component {
                     app?.history?.back();
                 }}
             />
-        )
+        );
     }
 }
 
@@ -46,8 +46,9 @@ class homeLinkComponent extends Component {
                         app.store.find('users', userId);
                         m.redraw();
                     }
-                }}></LinkButton>
-        )
+                }}
+            ></LinkButton>
+        );
     }
 
     oncreate(vnode) {
@@ -55,7 +56,7 @@ class homeLinkComponent extends Component {
         theButton.append(...homeLinkChilds);
 
         if (theButton.matches('img')) return;
-        
+
         const linkEles = document.head.querySelectorAll('[rel~=icon]');
         const linkNum = linkEles.length;
 
@@ -67,5 +68,5 @@ class homeLinkComponent extends Component {
 
 export default {
     backButton: backButtonComponent,
-    homeLink: homeLinkComponent
-}
+    homeLink: homeLinkComponent,
+};

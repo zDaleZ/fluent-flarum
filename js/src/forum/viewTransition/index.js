@@ -8,7 +8,7 @@
  */
 
 import { compat } from '@flarum/core/forum';
-import controller from "./transitionController";
+import controller from './transitionController';
 import register from './grabEvent';
 import hookMithril from './hookMithril';
 
@@ -18,4 +18,4 @@ export default () => {
     hookMithril();
     Object.assign(compat, { 'utils/fluent_internal_transition_controller': controller });
     window.requestAnimationFrame = window.rAF;
-}
+};

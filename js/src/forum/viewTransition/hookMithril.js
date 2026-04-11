@@ -7,7 +7,7 @@
  *  LICENSE-SCRIPT file that was distributed with this source code.
  */
 
-import cachePool from "./cachePool";
+import cachePool from './cachePool';
 
 export default function hookMithril() {
     // backup the origional functions
@@ -21,7 +21,7 @@ export default function hookMithril() {
         cachePool.calling = 'true';
         m.route.oldSet(...args);
         return;
-    }
+    };
 
     // (what does the codes below do? I just forgot...)
     // maybe it has no use. disable it to see what'll happen.
@@ -46,7 +46,11 @@ export default function hookMithril() {
     // when user starts their navigation with buttons provided by
     // browser.
 
-    window.addEventListener('popstate', () => {
-        cachePool.calling = 'true';
-    }, true);
+    window.addEventListener(
+        'popstate',
+        () => {
+            cachePool.calling = 'true';
+        },
+        true
+    );
 }

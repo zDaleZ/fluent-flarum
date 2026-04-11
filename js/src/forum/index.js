@@ -8,14 +8,11 @@
  */
 
 import app from 'flarum/forum/app';
-import addUserCardToSessionDropdown from './userSessionDropdown/index';
-import hookDiscussionPageLoading from './discussionPage';
 import hookGlobalHeader from './globalHeader';
 import hookScrubber from './PostStreamScrubberHook';
-import hookDropdown from './dropdownHook';
 import viewTransition from './viewTransition/index';
 
-function withID(more = "") {
+function withID(more = '') {
     return `dalez-fluent-flarum${more}`;
 }
 
@@ -27,15 +24,18 @@ async function getNoiseAsset() {
     const data = imageData.data;
 
     for (let i = 0; i < data.length; i += 4) {
-        let color = Math.floor(Math.random() * 255);
-        data[i] = color;
-        data[i + 1] = color;
-        data[i + 2] = color;
+        data[i] = data[i + 1] = data[i + 2] = Math.floor(Math.random() * 255);
         data[i + 3] = 8;
     }
 
     context.putImageData(imageData, 0, 0);
     return canvas.toDataURL();
+}
+
+function addNoiseAsset(asset) {
+    const style = document.createElement('style');
+    style.textContent = `:root {--noise-asset: url(${asset})}`;
+    document.head.appendChild(style);
 }
 
 const rootStyle = document.documentElement.style;
@@ -45,7 +45,7 @@ function mqListener() {
     refreshDPIScale();
     this.removeEventListener('change', mqListener);
     matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).addEventListener('change', mqListener);
-};
+}
 
 function refreshDPIScale() {
     rootStyle.setProperty('--dpi-scale', window.devicePixelRatio * window.visualViewport.scale);
@@ -53,7 +53,7 @@ function refreshDPIScale() {
 
 app.initializers.add(withID(), () => {
     (async () => {
-        rootStyle.setProperty('--noise-asset', `url(${await getNoiseAsset()})`);
+        addNoiseAsset(await getNoiseAsset());
         refreshDPIScale();
     })();
     document.body.classList.toggle('activated');
@@ -62,10 +62,7 @@ app.initializers.add(withID(), () => {
     window.visualViewport.addEventListener('resize', refreshDPIScale);
     matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).addEventListener('change', mqListener);
 
-    addUserCardToSessionDropdown();
-    hookDiscussionPageLoading();
     hookGlobalHeader();
     hookScrubber();
-    // hookDropdown();
-    if (data['dalez_fluent_flarum.disableViewTransition'] != "1") viewTransition();
+    if (data['dalez_fluent_flarum.disableViewTransition'] != '1') viewTransition();
 });

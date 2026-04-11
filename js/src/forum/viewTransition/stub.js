@@ -29,5 +29,5 @@
         }
 
         flarum.core.compat['utils/transition_controller'](func);
-    }
+    };
 })();

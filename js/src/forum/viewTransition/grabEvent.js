@@ -7,7 +7,7 @@
  *  LICENSE-SCRIPT file that was distributed with this source code.
  */
 
-import cachePool from "./cachePool";
+import cachePool from './cachePool';
 
 export default function () {
     function grab(event) {

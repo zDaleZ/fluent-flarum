@@ -7,9 +7,9 @@
  *  LICENSE-SCRIPT file that was distributed with this source code.
  */
 
-import cachePool from "./cachePool";
+import cachePool from './cachePool';
 
-let pool = cachePool.pool = [];
+let pool = (cachePool.pool = []);
 const content = document.getElementById('content');
 
 function markFirstCriticalElements() {
@@ -19,13 +19,13 @@ function markFirstCriticalElements() {
      * @type {HTMLElement}
      */
     const clicked = cachePool.click_event.target;
-    
+
     // clear the event pool
 
     cachePool.click_event = null;
 
     try {
-        const transitionItem = clicked.closest(".DiscussionListItem, .UserCard, .PostsUserPage");
+        const transitionItem = clicked.closest('.DiscussionListItem, .UserCard, .PostsUserPage');
         if (!transitionItem) return;
         cachePool.beforeElement = transitionItem;
         transitionItem.style.viewTransitionName = 'keyItem';
@@ -36,7 +36,7 @@ function markFirstCriticalElements() {
 
 function markSecondCriticalElements() {
     try {
-        const transitionItem = content.querySelector(".DiscussionPage-stream, .UserHero");
+        const transitionItem = content.querySelector('.DiscussionPage-stream, .UserHero');
         if (!transitionItem) return;
 
         // the before element may still keeps in dom tree
@@ -68,14 +68,14 @@ export default function controller(func) {
             func();
             markSecondCriticalElements();
         });
-        view.updateCallbackDone.then(()=>{
+        view.updateCallbackDone.then(() => {
             cachePool.calling = 'false';
             let i;
-            while (typeof (i = pool.shift()) !== "undefined") {
+            while (typeof (i = pool.shift()) !== 'undefined') {
                 window.rAF(i);
             }
         });
-        if (cachePool.afterElement) view.finished.then(() => cachePool.afterElement.style.viewTransitionName = '');
+        if (cachePool.afterElement) view.finished.then(() => (cachePool.afterElement.style.viewTransitionName = ''));
         return;
     }
 

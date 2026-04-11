@@ -17,9 +17,13 @@ export default class HeaderSearch extends Component {
     items() {
         const items = new ItemList();
 
-        items.add('search', Search.component({
-            state: app.search,
-        }), 30);
+        items.add(
+            'search',
+            Search.component({
+                state: app.search,
+            }),
+            30
+        );
 
         return items;
     }
