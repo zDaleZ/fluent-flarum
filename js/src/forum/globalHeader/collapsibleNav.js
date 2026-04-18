@@ -1,14 +1,15 @@
 import { extend, override } from 'flarum/common/extend';
 import listItems from 'flarum/common/helpers/listItems';
-
-import MoreDropdown from './moreDropdown';
 import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
 import ItemList from 'flarum/common/utils/ItemList';
+import { debounce } from 'flarum/common/utils/throttleDebounce';
+
+import MoreDropdown from './moreDropdown';
 
 /**
  *
  * @param { HeaderSecondary } element
- * @param { String } direction
+ * @param { Number } direction
  */
 
 export default function addCollapsible(element, direction) {
@@ -18,33 +19,47 @@ export default function addCollapsible(element, direction) {
         withMoreDropdown.add(
             'more',
             <MoreDropdown parent={this}>
-                {processItems(this.items())}
+                {direction ? processItems(this.items()) : processItems(this.items()).slice(2)}
             </MoreDropdown>,
-            Infinity
+            direction ? Infinity : -Infinity
         );
 
         return <ul className="Header-controls">{listItems(withMoreDropdown.toArray())}</ul>;
     });
 
     extend(element.prototype, 'oncreate', function () {
-        this.helper = new collapsibleHelper(this.element);
+        const helper = new collapsibleHelper(this.element, direction);
+        this.helper = helper;
+        window.addEventListener('resize', debounce(200, function () {
+            helper.layout();
+        }), { signal: helper.signal });
+    });
+
+    extend(element.prototype, 'onbeforeremove', function () {
+        this.helper.unregister();
     });
 }
 
 class collapsibleHelper {
+    #abort = new AbortController();
+
     /**
      * @constructor
      * @param { HTMLElement } element
      */
+
     constructor(element, direction) {
         this.element = element;
         this.direction = direction;
         this.showChoice = false;
+        this.signal = this.#abort.signal;
 
         this.layout();
     }
 
-    unregister() {}
+    unregister() {
+        this.#abort.abort();
+    }
 
     layout() {
         const children = Array.from(this.element.children);
@@ -69,7 +84,10 @@ class collapsibleHelper {
             return;
         }
 
-        children.slice(1).every((element, index) => {
+        (this.direction ?
+            children.slice(1) :
+            children.slice(2, -1).reverse()
+        ).every((element, index) => {
             if (element.classList.contains('chosen-item')) return parentWidth < childrenWidth;
 
             menuItems.querySelector(`.${element.className}`).style.display = 'block';

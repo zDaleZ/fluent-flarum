@@ -36,8 +36,6 @@
     border-radius: @large-radius;
     border: none;
 
-    .Dropdown-menu.normal();
-
     &:popover-open {
       &:extend(.open .Dropdown-menu);
     }
@@ -72,7 +70,15 @@
   }
 }
 
-.SessionDropdown li.item-SessionUserCard {
+li.item-more ul > li {
+  display: none;
+}
+
+li.item-more .Button-icon {
+  margin-right: 0;
+}
+
+.Header-controls > li.hidden-item {
   display: none;
 }
 

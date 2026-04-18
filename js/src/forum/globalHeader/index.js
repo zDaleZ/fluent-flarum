@@ -20,14 +20,16 @@ export default function hookGlobalHeader() {
     });
 
     extend(HeaderPrimary.prototype, 'items', function (items) {
-        items.add('back', <primaryCombineControls.backButton />, -50);
-        items.add('homelink', <primaryCombineControls.homeLink />, -100);
+        items.add('back', <primaryCombineControls.backButton />, Infinity);
+        items.add('homelink', <primaryCombineControls.homeLink />, Infinity);
     });
 
     extend(HeaderSecondary.prototype, 'items', function (items) {
         items.remove('search');
     });
 
-    addCollapsible(HeaderSecondary, null);
+    // 0: from right, 1: from left
+    addCollapsible(HeaderPrimary, 0);
+    addCollapsible(HeaderSecondary, 1);
     addTestButtons();
 }
