@@ -168,6 +168,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// It's used by processItems(), to prevent building the same class again and again...
+var componentPool = new WeakMap();
+
 /**
  *
  * @param { HeaderSecondary } element
@@ -266,9 +269,14 @@ function processItems(items) {
     var item = items.get(itemName);
     item.attrs.onclick = null;
     if (!('getButton' in item.tag.prototype)) return;
+    var buttonOfComponent = componentPool.get(item.tag);
+    if (buttonOfComponent) {
+      items.setContent(itemName, buttonOfComponent.component(item.attrs, item.children));
+      return;
+    }
 
     // Build a new component in place
-    var buttonOfComponent = /*#__PURE__*/function (_item$tag) {
+    buttonOfComponent = /*#__PURE__*/function (_item$tag) {
       function buttonOfComponent() {
         return _item$tag.apply(this, arguments) || this;
       }
@@ -283,6 +291,7 @@ function processItems(items) {
       return buttonOfComponent;
     }(item.tag);
     items.setContent(itemName, buttonOfComponent.component(item.attrs, item.children));
+    componentPool.set(item.tag, buttonOfComponent);
   });
   return items.toArray();
 }
@@ -768,8 +777,9 @@ function hookMithril() {
   // when user starts their navigation with buttons provided by
   // browser.
 
-  window.addEventListener('popstate', function () {
-    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'true';
+  window.addEventListener('popstate', function (e) {
+    // if browser performs transition for us, then we don't.
+    if (!e.hasUAVisualTransition) _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'true';
   }, true);
 }
 
@@ -840,6 +850,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var pool = _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].pool = [];
 var content = document.getElementById('content');
+var body = document.body;
+var style = document.createElement('style');
+document.head.appendChild(style);
 function markFirstCriticalElements() {
   if (!_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].click_event) return;
 
@@ -854,31 +867,40 @@ function markFirstCriticalElements() {
   try {
     var transitionItem = clicked.closest('.DiscussionListItem, .UserCard, .PostsUserPage');
     if (!transitionItem) return;
-    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].beforeElement = transitionItem;
-    transitionItem.style.viewTransitionName = 'keyItem';
+    body.classList.toggle('view');
+    body.style.viewTransitionName = 'drill';
+    style.textContent = "::view-transition-old(drill){translate: 0 -" + window.scrollY + "px}";
+    // cachePool.beforeElement = transitionItem;
+    // transitionItem.style.viewTransitionName = 'keyItem';
   } catch (error) {
     console.warn("Seems like the selector is invalid. More info: " + error);
   }
 }
+
+/*
 function markSecondCriticalElements() {
-  try {
-    var transitionItem = content.querySelector('.DiscussionPage-stream, .UserHero');
-    if (!transitionItem) return;
+    try {
+        const transitionItem = content.querySelector('.DiscussionPage-stream, .UserHero');
+        if (!transitionItem) return;
 
-    // the before element may still keeps in dom tree
-    // and it can't stay with the after element.
-    // since it've been captured, we removes its name here.
+        // the before element may still keeps in dom tree
+        // and it can't stay with the after element.
+        // since it've been captured, we removes its name here.
 
-    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].beforeElement.style.viewTransitionName = '';
+        cachePool.beforeElement.style.viewTransitionName = '';
 
-    // add the name for the after element.
+        // add the name for the after element.
 
-    transitionItem.style.viewTransitionName = 'keyItem';
-    _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].afterElement = transitionItem;
-  } catch (error) {
-    console.warn("Seems like the selector is invalid. More info: " + error);
-  }
+        transitionItem.style.viewTransitionName = 'keyItem';
+
+        cachePool.afterElement = transitionItem;
+    } catch (error) {
+        console.warn(`Seems like the selector is invalid. More info: ${error}`);
+    }
+    body.style.viewTransitionName = '';
 }
+*/
+
 function controller(func) {
   // Is this condition still necessary?
   if (_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling == 'processing') {
@@ -888,10 +910,12 @@ function controller(func) {
   if (_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling == 'true') {
     _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'processing';
     markFirstCriticalElements();
+    console.log('start');
     var view = document.startViewTransition(function () {
       func();
-      markSecondCriticalElements();
+      // markSecondCriticalElements();
     });
+    console.log(view);
     view.updateCallbackDone.then(function () {
       _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].calling = 'false';
       var i;
@@ -899,8 +923,15 @@ function controller(func) {
         window.rAF(i);
       }
     });
-    if (_cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].afterElement) view.finished.then(function () {
-      return _cachePool__WEBPACK_IMPORTED_MODULE_0__["default"].afterElement.style.viewTransitionName = '';
+    view.ready.then(function () {
+      // const old = getAnimations(view, 'drill', ViewTransitionPart.Old)[0];
+    });
+    /*if (cachePool.afterElement)*/
+    view.finished.then(function () {
+      body.style.viewTransitionName = '';
+      setTimeout(function () {
+        return body.classList.toggle('view');
+      }, 0);
     });
     return;
   }

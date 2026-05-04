@@ -82,6 +82,47 @@ li.item-more .Button-icon {
   display: none;
 }
 
+::view-transition-group(*), ::view-transition-new(*) {
+  animation: none;
+}
+
+::view-transition-old(*) {
+  display: none;
+}
+
+::view-transition-old(drill) {
+    display: block;
+    animation-name: -ua-view-transition-fade-out, -ua-mix-blend-mode-plus-lighter, scale-out;
+    animation-timing-function: @ControlFastOutSlowInKeySpline;
+    animation-duration: @ControlNormalAnimationDuration;
+}
+
+::view-transition-new(drill) {
+    animation-name: -ua-view-transition-fade-in, -ua-mix-blend-mode-plus-lighter, scale-in;
+    animation-timing-function: @ControlFastOutSlowInKeySpline;
+    animation-duration: @ControlNormalAnimationDuration;
+}
+
+@keyframes scale-out {
+    from {
+        scale: 1;
+    }
+
+    to {
+        scale: 1.05;
+    }
+}
+
+@keyframes scale-in {
+    from {
+        scale: 0.95;
+    }
+
+    to {
+        scale: 1;
+    }
+}
+
 ::view-transition-group(keyItem) {
     animation-name: -ua-view-transition-group-anim-keyItem, gravity;
     animation-duration: 0.3s;
@@ -93,6 +134,24 @@ li.item-more .Button-icon {
     height: 100%;
     animation-duration: 0.3s;
 }
+
+body.view {
+    & #alerts {
+      view-transition-name: alerts;
+    }
+
+    & .App-composer {
+      view-transition-name: composer;
+    }
+
+    & aside.DiscussionPage-list {
+      view-transition-name: discussionlist;
+    }
+
+    & #header {
+      view-transition-name: header;
+    }
+  }
 
 @keyframes gravity {
     0% {

@@ -48,8 +48,9 @@ export default function hookMithril() {
 
     window.addEventListener(
         'popstate',
-        () => {
-            cachePool.calling = 'true';
+        (e) => {
+            // if browser performs transition for us, then we don't.
+            if (!e.hasUAVisualTransition) cachePool.calling = 'true';
         },
         true
     );

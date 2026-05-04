@@ -6,6 +6,9 @@ import { debounce } from 'flarum/common/utils/throttleDebounce';
 
 import MoreDropdown from './moreDropdown';
 
+// It's used by processItems(), to prevent building the same class again and again...
+const componentPool = new WeakMap();
+
 /**
  *
  * @param { HeaderSecondary } element
@@ -116,8 +119,15 @@ function processItems(items) {
 
         if (!('getButton' in item.tag.prototype)) return;
 
+        let buttonOfComponent = componentPool.get(item.tag);
+
+        if (buttonOfComponent) {
+            items.setContent(itemName, buttonOfComponent.component(item.attrs, item.children));
+            return;
+        }
+
         // Build a new component in place
-        class buttonOfComponent extends item.tag {
+        buttonOfComponent = class extends item.tag {
             view(vnode) {
                 const button = this.getButton(vnode.children);
                 button.attrs.className += ' hasIcon';
@@ -127,6 +137,8 @@ function processItems(items) {
         }
 
         items.setContent(itemName, buttonOfComponent.component(item.attrs, item.children));
+
+        componentPool.set(item.tag, buttonOfComponent);
     });
 
     return items.toArray();

@@ -11,6 +11,10 @@ import cachePool from './cachePool';
 
 let pool = (cachePool.pool = []);
 const content = document.getElementById('content');
+const body = document.body;
+
+const style = document.createElement('style');
+document.head.appendChild(style);
 
 function markFirstCriticalElements() {
     if (!cachePool.click_event) return;
@@ -27,13 +31,18 @@ function markFirstCriticalElements() {
     try {
         const transitionItem = clicked.closest('.DiscussionListItem, .UserCard, .PostsUserPage');
         if (!transitionItem) return;
-        cachePool.beforeElement = transitionItem;
-        transitionItem.style.viewTransitionName = 'keyItem';
+
+        body.classList.toggle('view');
+        body.style.viewTransitionName = 'drill';
+        style.textContent = `::view-transition-old(drill){translate: 0 -${window.scrollY}px}`;
+        // cachePool.beforeElement = transitionItem;
+        // transitionItem.style.viewTransitionName = 'keyItem';
     } catch (error) {
         console.warn(`Seems like the selector is invalid. More info: ${error}`);
     }
 }
 
+/*
 function markSecondCriticalElements() {
     try {
         const transitionItem = content.querySelector('.DiscussionPage-stream, .UserHero');
@@ -53,7 +62,9 @@ function markSecondCriticalElements() {
     } catch (error) {
         console.warn(`Seems like the selector is invalid. More info: ${error}`);
     }
+    body.style.viewTransitionName = '';
 }
+*/
 
 export default function controller(func) {
     // Is this condition still necessary?
@@ -64,10 +75,12 @@ export default function controller(func) {
     if (cachePool.calling == 'true') {
         cachePool.calling = 'processing';
         markFirstCriticalElements();
+        console.log('start');
         const view = document.startViewTransition(() => {
             func();
-            markSecondCriticalElements();
+            // markSecondCriticalElements();
         });
+        console.log(view);
         view.updateCallbackDone.then(() => {
             cachePool.calling = 'false';
             let i;
@@ -75,7 +88,14 @@ export default function controller(func) {
                 window.rAF(i);
             }
         });
-        if (cachePool.afterElement) view.finished.then(() => (cachePool.afterElement.style.viewTransitionName = ''));
+        view.ready.then(() => {
+            // const old = getAnimations(view, 'drill', ViewTransitionPart.Old)[0];
+            
+        });
+        /*if (cachePool.afterElement)*/ view.finished.then(() => {
+            body.style.viewTransitionName = '';
+            setTimeout(() => body.classList.toggle('view'), 0);
+        });
         return;
     }
 
