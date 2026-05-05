@@ -34,7 +34,7 @@ function markFirstCriticalElements() {
 
         body.classList.toggle('view');
         body.style.viewTransitionName = 'drill';
-        style.textContent = `::view-transition-old(drill){translate: 0 -${window.scrollY}px}`;
+        style.textContent = `::view-transition-old(drill){translate:0 -${scrollY}px;transform-origin:center calc(${scrollY}px + 50vh)}`;
         // cachePool.beforeElement = transitionItem;
         // transitionItem.style.viewTransitionName = 'keyItem';
     } catch (error) {
@@ -90,11 +90,10 @@ export default function controller(func) {
         });
         view.ready.then(() => {
             // const old = getAnimations(view, 'drill', ViewTransitionPart.Old)[0];
-            
         });
         /*if (cachePool.afterElement)*/ view.finished.then(() => {
             body.style.viewTransitionName = '';
-            setTimeout(() => body.classList.toggle('view'), 0);
+            setTimeout(() => body.classList.remove('view'), 0);
         });
         return;
     }

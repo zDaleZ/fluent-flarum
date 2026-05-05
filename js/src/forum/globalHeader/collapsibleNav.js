@@ -21,9 +21,7 @@ export default function addCollapsible(element, direction) {
 
         withMoreDropdown.add(
             'more',
-            <MoreDropdown parent={this}>
-                {direction ? processItems(this.items()) : processItems(this.items()).slice(2)}
-            </MoreDropdown>,
+            <MoreDropdown parent={this}>{direction ? processItems(this.items()) : processItems(this.items()).slice(2)}</MoreDropdown>,
             direction ? Infinity : -Infinity
         );
 
@@ -33,9 +31,13 @@ export default function addCollapsible(element, direction) {
     extend(element.prototype, 'oncreate', function () {
         const helper = new collapsibleHelper(this.element, direction);
         this.helper = helper;
-        window.addEventListener('resize', debounce(200, function () {
-            helper.layout();
-        }), { signal: helper.signal });
+        window.addEventListener(
+            'resize',
+            debounce(200, function () {
+                helper.layout();
+            }),
+            { signal: helper.signal }
+        );
     });
 
     extend(element.prototype, 'onbeforeremove', function () {
@@ -82,15 +84,12 @@ class collapsibleHelper {
             element.style.display = '';
         });
 
-        if (parentWidth >= (childrenWidth - menuItems.getBoundingClientRect().width)) {
+        if (parentWidth >= childrenWidth - menuItems.getBoundingClientRect().width) {
             menuItems.classList.add('hidden-item');
             return;
         }
 
-        (this.direction ?
-            children.slice(1) :
-            children.slice(2, -1).reverse()
-        ).every((element, index) => {
+        (this.direction ? children.slice(1) : children.slice(2, -1).reverse()).every((element, index) => {
             if (element.classList.contains('chosen-item')) return parentWidth < childrenWidth;
 
             menuItems.querySelector(`.${element.className}`).style.display = 'block';
@@ -134,7 +133,7 @@ function processItems(items) {
                 button.attrs.onclick = null;
                 return button;
             }
-        }
+        };
 
         items.setContent(itemName, buttonOfComponent.component(item.attrs, item.children));
 

@@ -1,3 +1,11 @@
+.App-header, .App-navigation {
+  box-shadow: @shadow-outline-window !important;
+}
+
+.App-content {
+  border-top: none;
+}
+
 @media @tablet-up {
   #header > .container {
     display: grid;
@@ -20,7 +28,7 @@
     &:extend(.Header-navigation);
   }
   .Header-secondary {
-    &:extend(.Header-primary);
+    // &:extend(.Header-primary);
 
     & > .Header-controls {
         display: flex;

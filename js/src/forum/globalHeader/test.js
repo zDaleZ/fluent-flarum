@@ -10,11 +10,11 @@ export default function addTestButtons() {
         while (n) {
             let href = `#${n}`;
             let dosomething = Function(`alert("Link ${n} is clicked!");return false`);
-            items.add(n, <LinkButton 
-                class={'LinksButton Button Button--link'} 
-                active={false} 
-                href={href}
-                onclick={dosomething}>{`link ${n}`}</LinkButton>, -(n--));
+            items.add(
+                n,
+                <LinkButton class={'LinksButton Button Button--link'} active={false} href={href} onclick={dosomething}>{`link ${n}`}</LinkButton>,
+                -n--
+            );
         }
     });
 

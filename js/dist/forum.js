@@ -869,7 +869,7 @@ function markFirstCriticalElements() {
     if (!transitionItem) return;
     body.classList.toggle('view');
     body.style.viewTransitionName = 'drill';
-    style.textContent = "::view-transition-old(drill){translate: 0 -" + window.scrollY + "px}";
+    style.textContent = "::view-transition-old(drill){translate:0 -" + scrollY + "px;transform-origin:center calc(" + scrollY + "px + 50vh)}";
     // cachePool.beforeElement = transitionItem;
     // transitionItem.style.viewTransitionName = 'keyItem';
   } catch (error) {
@@ -930,7 +930,7 @@ function controller(func) {
     view.finished.then(function () {
       body.style.viewTransitionName = '';
       setTimeout(function () {
-        return body.classList.toggle('view');
+        return body.classList.remove('view');
       }, 0);
     });
     return;
