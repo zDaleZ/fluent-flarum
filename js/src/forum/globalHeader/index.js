@@ -1,6 +1,6 @@
 import ForumApplication from 'flarum/forum/ForumApplication';
 import HeaderSearch from './headerSearch';
-import primaryCombineControls from './backButtonAndHomeLink';
+import * as backAndHome from './backButtonAndHomeLink';
 import addTestButtons from './test';
 import HeaderPrimary from 'flarum/forum/components/HeaderPrimary';
 import HeaderSecondary from 'flarum/forum/components/HeaderSecondary';
@@ -20,8 +20,8 @@ export default function hookGlobalHeader() {
     });
 
     extend(HeaderPrimary.prototype, 'items', function (items) {
-        items.add('back', <primaryCombineControls.backButton />, Infinity);
-        items.add('homelink', <primaryCombineControls.homeLink />, Infinity);
+        items.add('back', <backAndHome.backButton />, Infinity);
+        items.add('homelink', <backAndHome.homeLink />, Infinity);
     });
 
     extend(HeaderSecondary.prototype, 'items', function (items) {

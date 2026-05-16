@@ -25,16 +25,16 @@ class backButtonComponent extends Component {
     }
 }
 
-const homeLink = document.getElementById('home-link');
-const homeLinkHref = homeLink.href;
-const homeLinkChilds = Array.from(homeLink.childNodes).map((node) => node.cloneNode(true));
-
 class homeLinkComponent extends Component {
+    attributes = data.resources.find((item) => {
+                        return item.type == "forums";
+                    }).attributes;
+
     view() {
         return (
             <LinkButton
                 className="Button  Button--flat"
-                href={homeLinkHref}
+                href={this.attributes.baseUrl}
                 onclick={(e) => {
                     if (e.ctrlKey || e.metaKey || e.button === 1) return;
                     e.preventDefault();
@@ -47,26 +47,19 @@ class homeLinkComponent extends Component {
                         m.redraw();
                     }
                 }}
-            ></LinkButton>
+            >{
+                (() => {
+                    if (this.attributes.logoUrl) {
+                        return <img className="logo" src={this.attributes.logoUrl} />
+                    }
+                    if (this.attributes.faviconUrl) {
+                        return [<img className="icon" src={this.attributes.faviconUrl} />, this.attributes.title];
+                    }
+                    return this.attributes.title;
+                })()
+            }</LinkButton>
         );
-    }
-
-    oncreate(vnode) {
-        const theButton = vnode.dom.children[0];
-        theButton.append(...homeLinkChilds);
-
-        if (theButton.matches('img')) return;
-
-        const linkEles = document.head.querySelectorAll('[rel~=icon]');
-        const linkNum = linkEles.length;
-
-        if (linkNum == 0) return;
-
-        theButton.dataset.favicon = linkEles[linkNum - 1]?.href;
     }
 }
 
-export default {
-    backButton: backButtonComponent,
-    homeLink: homeLinkComponent,
-};
+export {backButtonComponent as backButton, homeLinkComponent as homeLink};
