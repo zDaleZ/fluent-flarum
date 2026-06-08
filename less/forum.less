@@ -370,6 +370,20 @@ p.description, p.Settings-theme--selection_description {
 
 #header {
 	box-shadow: @shadow-outline-window;
+	& .Search-input {
+		& when (lightness(@header-bg) <= 50%) {
+			--fluent-temp-input-text-color: ~"#ffffffc8";
+			&:active, &:focus-within {
+				--fluent-temp-input-text-color: white;
+			}
+		}
+		& when (lightness(@header-bg) > 50%) {
+			--fluent-temp-input-text-color: ~"#000000a8";
+			&:active, &:focus-within {
+				--fluent-temp-input-text-color: black;
+			}
+		}
+	}
 	& input[type=search] {
 		font-size: 14px;
 		border: 1px solid transparent;
@@ -412,12 +426,7 @@ p.description, p.Settings-theme--selection_description {
 	}
 
 	& .Search-input::before, .FormControl::-webkit-input-placeholder, .FormControl::placeholder, & .Search-input > .Search-clear, & .Search-input > .Search-clear:hover, & input[type=search] {
-			& when (@config-dark-mode = false) {
-				color: rgb(117, 117, 117) !important;
-			}
-			& when (@config-dark-mode = true) {
-				color: #cfd1d2 !important;
-			}
+			color: var(--fluent-temp-input-text-color);
 	}
 }
 
