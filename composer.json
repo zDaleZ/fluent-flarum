@@ -7,11 +7,12 @@
     "type": "flarum-extension",
     "license": "MIT",
     "support": {
-        "issues": "https://github.com/DellZHackintosh/fluent-flarum/issues",
-        "source": "https://github.com/DellZHackintosh/fluent-flarum"
+        "issues": "https://github.com/zDaleZ/fluent-flarum/issues",
+        "source": "https://github.com/zDaleZ/fluent-flarum",
+        "forum": "https://discuss.flarum.org/d/21492"
     },
     "require": {
-        "flarum/core": "^1.0"
+        "flarum/core": "^1.8"
     },
     "extra": {
         "flarum-extension": {
