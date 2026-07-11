@@ -9,7 +9,9 @@
 
 import app from 'flarum/forum/app';
 import hookGlobalHeader from './globalHeader';
+import viewTransition from './viewTransition';
 
 app.initializers.add('dalez-fluent-flarum', () => {
     hookGlobalHeader();
+    viewTransition();
 });

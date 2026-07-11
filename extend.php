@@ -33,7 +33,8 @@ return [
                         document.addEventListener("fofnightmodechange", changeTitleColor);
                     }
                 });
-            })();</script>';
+            })();</script>
+            <script>(()=>{if(!document.startViewTransition)return;window.rAF=requestAnimationFrame;window.requestAnimationFrame=(f)=>{const t = "utils/fluent_internal_transition_controller";if(!flarum||!flarum.core||!flarum.core.compat||!flarum.core.compat[t]||typeof flarum.core.compat[t]!="function"){window.rAF(f);return}flarum.core.compat[t](f)}})();</script>';
         })
         ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less'),  

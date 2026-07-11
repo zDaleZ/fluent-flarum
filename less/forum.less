@@ -806,6 +806,78 @@ aside.DiscussionPage-list {
     background: none;
 }
 
+body.view {
+    & #alerts {
+      view-transition-name: alerts;
+    }
+
+    & .App-composer {
+      view-transition-name: composer;
+    }
+
+    & aside.DiscussionPage-list {
+      view-transition-name: discussionlist;
+    }
+
+    & #header {
+      view-transition-name: header;
+    }
+
+	& #app-navigation {
+		view-transition-name: mobilenav;
+	}
+}
+
+::view-transition-group(*), ::view-transition-new(*) {
+  animation: none;
+}
+
+::view-transition-old(*) {
+  display: none;
+}
+
+::view-transition-image-pair(drill) {
+    animation-name: scale-in;
+    animation-timing-function: cubic-bezier(0, 0, 0, 1);
+    animation-duration: 250ms;
+    height: 100vh;
+    transform-origin: center;
+}
+
+::view-transition-old(drill) {
+    display: block;
+	scale: calc(1 / 0.95);
+    animation-name: -ua-view-transition-fade-out, -ua-mix-blend-mode-plus-lighter;
+    animation-timing-function: ~"cubic-bezier(0, 0, 0, 1)";
+    animation-duration: 250ms;
+}
+
+::view-transition-new(drill) {
+    animation-name: -ua-view-transition-fade-in, -ua-mix-blend-mode-plus-lighter;
+    animation-timing-function: ~"cubic-bezier(0, 0, 0, 1)";
+    animation-duration: 250ms;
+}
+
+@keyframes scale-out {
+    from {
+        scale: 1;
+    }
+
+    to {
+        scale: 1.05;
+    }
+}
+
+@keyframes scale-in {
+    from {
+        scale: 0.95;
+    }
+
+    to {
+        scale: 1;
+    }
+}
+
 @media @phone {
 	#header {
 		box-shadow: none;
