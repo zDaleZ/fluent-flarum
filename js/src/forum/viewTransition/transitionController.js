@@ -10,7 +10,6 @@
 import cachePool from './cachePool';
 
 let pool = (cachePool.pool = []);
-const content = document.getElementById('content');
 const body = document.body;
 
 const style = document.createElement('style');
@@ -28,18 +27,12 @@ function markFirstCriticalElements() {
 
     cachePool.click_event = null;
 
-    try {
-        const transitionItem = clicked.closest('.DiscussionListItem, .UserCard, .PostsUserPage');
-        if (!transitionItem) return;
+    const transitionItem = clicked.closest('.DiscussionListItem, .UserCard, .PostsUserPage');
+    if (!transitionItem) return;
 
-        body.classList.toggle('view');
-        body.style.viewTransitionName = 'drill';
-        style.textContent = `::view-transition-old(drill){translate:0 -${scrollY}px;transform-origin:center calc(${scrollY}px + 50vh)}`;
-        // cachePool.beforeElement = transitionItem;
-        // transitionItem.style.viewTransitionName = 'keyItem';
-    } catch (error) {
-        console.warn(`Seems like the selector is invalid. More info: ${error}`);
-    }
+    body.classList.toggle('view');
+    body.style.viewTransitionName = 'drill';
+    style.textContent = `::view-transition-old(drill){translate:0 -${scrollY}px;transform-origin:center calc(${scrollY}px + 50vh)}`;
 }
 
 /*

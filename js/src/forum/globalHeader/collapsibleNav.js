@@ -13,11 +13,6 @@ let container = document.body.querySelector('#header .container');
 
 let titlebarVisible = [false, false];
 
-// Window Controls Overlay is visible? Then `geometrychange` event will fire.
-function ifNoNeedToProcess() {
-    return navigator.windowControlsOverlay && navigator.windowControlsOverlay.visible;
-}
-
 /**
  *
  * @param { HeaderSecondary } element
@@ -40,23 +35,13 @@ export default function addCollapsible(element, direction) {
     extend(element.prototype, 'oncreate', function () {
         const helper = new collapsibleHelper(this.element, direction);
         this.helper = helper;
-        window.addEventListener(
-            'resize',
-            debounce(200, function () {
-                if (ifNoNeedToProcess()) return;
-                helper.layout();
-            }),
-            { signal: helper.signal }
-        );
+        const layout = debounce(50, function (e) {
+            helper.layout(e.type == 'resize' ? 0 : e);
+        });
+        window.addEventListener('resize', layout, { signal: helper.signal });
 
         if (navigator.windowControlsOverlay) {
-            navigator.windowControlsOverlay.addEventListener(
-                'geometrychange',
-                debounce(200, function (e) {
-                    helper.layout(e);
-                }),
-                { signal: helper.signal }
-            );
+            navigator.windowControlsOverlay.addEventListener('geometrychange', layout, { signal: helper.signal });
         }
     });
 
