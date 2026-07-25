@@ -4,6 +4,7 @@ namespace DaleZ\fluentflarum;
 
 use Flarum\Extend;
 use Flarum\Frontend\Document;
+use Flarum\Settings\SettingsRepositoryInterface;
 
 return [
     (new Extend\Frontend('forum'))
@@ -33,9 +34,14 @@ return [
                         document.addEventListener("fofnightmodechange", changeTitleColor);
                     }
                 });
-            })();</script>
-            <script>(()=>{if(!document.startViewTransition)return;window.rAF=requestAnimationFrame;window.requestAnimationFrame=(f)=>{const t = "utils/fluent_internal_transition_controller";if(!flarum||!flarum.core||!flarum.core.compat||!flarum.core.compat[t]||typeof flarum.core.compat[t]!="function"){window.rAF(f);return}flarum.core.compat[t](f)}})();</script>';
+            })();</script>';
         })
-        ->js(__DIR__.'/js/dist/forum.js')
         ->css(__DIR__.'/less/forum.less'),  
+
+        (new Extend\Theme())
+            ->addCustomLessVariable('config-colored-header', function () {
+                $settings = resolve(SettingsRepositoryInterface::class);
+
+                return $settings->get('theme_colored_header') ? 'true' : 'false';
+            })
 ];
