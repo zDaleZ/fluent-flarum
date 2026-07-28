@@ -11,7 +11,23 @@ const componentPool = new WeakMap();
 
 let container = document.body.querySelector('#header .container');
 
-let titlebarVisible = [false, false];
+const WCO = (() => {
+    const WCO = navigator.windowControlsOverlay;
+    const isWCOavailable = !!WCO;
+    return {
+        get visible() {
+            return isWCOavailable ? WCO.visible : false;
+        },
+
+        get gTA() {
+            return isWCOavailable ? WCO.getTitlebarAreaRect.bind(WCO) : () => new DOMRect();
+        },
+
+        get aEL() {
+            return isWCOavailable ? WCO.addEventListener.bind(WCO) : () => {};
+        },
+    };
+})();
 
 /**
  *
@@ -36,13 +52,10 @@ export default function addCollapsible(element, direction) {
         const helper = new collapsibleHelper(this.element, direction);
         this.helper = helper;
         const layout = debounce(50, function (e) {
-            helper.layout(e.type == 'resize' ? 0 : e);
+            helper.layout(e);
         });
         window.addEventListener('resize', layout, { signal: helper.signal });
-
-        if (navigator.windowControlsOverlay) {
-            navigator.windowControlsOverlay.addEventListener('geometrychange', layout, { signal: helper.signal });
-        }
+        WCO.aEL('geometrychange', layout, { signal: helper.signal });
     });
 
     extend(element.prototype, 'onbeforeremove', function () {
@@ -63,14 +76,6 @@ class collapsibleHelper {
         this.direction = direction;
         this.showChoice = false;
         this.signal = this.#abort.signal;
-
-        // emulate an event, so the layout can initialize well for titlebar.
-        if (navigator.windowControlsOverlay) {
-            const e = { visible: navigator.windowControlsOverlay.visible, titlebarAreaRect: navigator.windowControlsOverlay.getTitlebarAreaRect() };
-            this.layout(e);
-            return;
-        }
-
         this.layout();
     }
 
@@ -79,45 +84,29 @@ class collapsibleHelper {
     }
 
     layout(e) {
+        const whatMargin = `margin${this.direction ? 'Right' : 'Left'}`;
+
         if (window.app.screen() == 'phone') {
-            this.element.style = '';
+            this.element.style[whatMargin] = '';
             return;
         }
 
         if (e) this.clearChoiceItem();
 
-        if (e && (e.visible || e.visible != titlebarVisible[this.direction])) {
-            const needRestore = e.visible != titlebarVisible[this.direction] && !e.visible;
-            titlebarVisible[this.direction] = e.visible;
+        const containerBounds = container.getBoundingClientRect();
+        const titlebarBounds = WCO.gTA();
 
-            const containerBounds = container.getBoundingClientRect();
+        const windowWidth = window.innerWidth;
+        const availableMargin = this.direction ? windowWidth - containerBounds.right : containerBounds.left;
+        let unsafeTitlebarArea = this.direction ? windowWidth - titlebarBounds.x - titlebarBounds.width : titlebarBounds.x;
 
-            if (this.direction == 0) {
-                const availableMargin = containerBounds.left;
-                const unsafeTitlebarArea = e.titlebarAreaRect.x;
+        // if the unsafe area is equal to window width, then the titlebar is actually not visible to us.
+        unsafeTitlebarArea = unsafeTitlebarArea == windowWidth ? 0 : unsafeTitlebarArea;
 
-                if (availableMargin < unsafeTitlebarArea) {
-                    this.element.style.marginLeft = `${unsafeTitlebarArea - availableMargin}px`;
-                }
-
-                if (needRestore || availableMargin >= unsafeTitlebarArea) {
-                    this.element.style.marginLeft = '';
-                }
-            }
-
-            if (this.direction == 1) {
-                const windowWidth = window.innerWidth;
-                const availableMargin = windowWidth - containerBounds.right;
-                const unsafeTitlebarArea = windowWidth - e.titlebarAreaRect.x - e.titlebarAreaRect.width;
-
-                if (availableMargin < unsafeTitlebarArea) {
-                    this.element.style.marginRight = `${unsafeTitlebarArea - availableMargin}px`;
-                }
-
-                if (needRestore || availableMargin >= unsafeTitlebarArea) {
-                    this.element.style.marginRight = '';
-                }
-            }
+        if (availableMargin < unsafeTitlebarArea) {
+            this.element.style[whatMargin] = `${unsafeTitlebarArea - availableMargin}px`;
+        } else {
+            this.element.style[whatMargin] = '';
         }
 
         const children = Array.from(this.element.children);
