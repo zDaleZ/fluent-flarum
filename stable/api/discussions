@@ -1,6 +1,6 @@
 {
     "links": {
-        "first": "http://127.0.0.1:8888/api/discussions"
+        "first": "https://zdalez.github.io/fluent-flarum/beta/api/discussions"
     },
     "data": [
         {
