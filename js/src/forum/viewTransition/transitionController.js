@@ -30,7 +30,7 @@ function markFirstCriticalElements() {
     const transitionItem = clicked.closest('.DiscussionListItem, .UserCard, .PostsUserPage');
     if (!transitionItem) return;
 
-    body.classList.toggle('view');
+    // body.classList.toggle('view');
     body.style.viewTransitionName = 'drill';
     style.textContent = `::view-transition-old(drill){translate:0 -${scrollY}px;transform-origin:center calc(${scrollY}px + 50vh)}`;
 }
@@ -68,12 +68,10 @@ export default function controller(func) {
     if (cachePool.calling == 'true') {
         cachePool.calling = 'processing';
         markFirstCriticalElements();
-        console.log('start');
         const view = document.startViewTransition(() => {
             func();
             // markSecondCriticalElements();
         });
-        console.log(view);
         view.updateCallbackDone.then(() => {
             cachePool.calling = 'false';
             let i;
@@ -86,7 +84,7 @@ export default function controller(func) {
         });
         /*if (cachePool.afterElement)*/ view.finished.then(() => {
             body.style.viewTransitionName = '';
-            setTimeout(() => body.classList.remove('view'), 0);
+            // setTimeout(() => body.classList.remove('view'), 0);
         });
         return;
     }

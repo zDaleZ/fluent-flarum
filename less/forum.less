@@ -806,35 +806,25 @@ aside.DiscussionPage-list {
     background: none;
 }
 
-body.view {
-    & #alerts {
-      view-transition-name: match-element;
-	  view-transition-class: noani;
-    }
-
-    & .App-composer {
-      &:extend(body.view #alerts);
-    }
-
-    & aside.DiscussionPage-list {
-      &:extend(body.view #alerts);
-    }
-
-    & #header {
-      &:extend(body.view #alerts);
-    }
-
-	& #app-navigation {
-		&:extend(body.view #alerts);
+html:active-view-transition {
+	& body {
+		& #alerts, & .App-composer, & aside.DiscussionPage-list, & #header, & #app-navigation {
+			view-transition-name: ~"attr(id type(<custom-ident>), attr(class type(<custom-ident>)))";
+			view-transition-class: noani;
+		}
 	}
 }
 
-::view-transition-group(.noani), ::view-transition-new(.noani), ::view-transition-group(drill), ::view-transition-group(root) {
-  animation-name: none;
+::view-transition-group(.noani), ::view-transition-new(.noani) {
+	animation-name: none;
+}
+
+::view-transition-group(drill), ::view-transition-group(root) {
+  	animation-name: none;
 }
 
 ::view-transition-old(.noani) {
-  display: none;
+  	display: none;
 }
 
 ::view-transition-image-pair(drill) {
