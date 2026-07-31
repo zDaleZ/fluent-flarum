@@ -58,6 +58,10 @@ export default function addCollapsible(element, direction) {
         WCO.aEL('geometrychange', layout, { signal: helper.signal });
     });
 
+    extend(element.prototype, 'onupdate', function () {
+        this.helper.layout();
+    });
+
     extend(element.prototype, 'onbeforeremove', function () {
         this.helper.unregister();
     });
@@ -134,9 +138,10 @@ class collapsibleHelper {
         (this.direction ? children.slice(1) : children.slice(2, -1).reverse()).every((element, index) => {
             if (element.classList.contains('chosen-item')) return parentWidth < childrenWidth;
 
-            menuItems.querySelector(`.${element.className}`).style.display = 'block';
+            const selector = '.' + Array.from(element.classList).find((className) => className.startsWith('item-'));
+            menuItems.querySelector(selector).style.display = 'block';
             element.classList.add('hidden-item');
-            childrenWidth -= domRects[index + 1].width;
+            childrenWidth -= domRects[children.indexOf(element)].width;
             return parentWidth < childrenWidth;
         });
     }

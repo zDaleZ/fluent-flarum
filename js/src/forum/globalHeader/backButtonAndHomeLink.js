@@ -31,9 +31,19 @@ class homeLinkComponent extends Component {
     }).attributes;
 
     view() {
+        let imgClassName = '';
+
+        if (this.attributes.logoUrl) {
+            imgClassName = 'logo';
+        }
+
+        if (this.attributes.faviconUrl) {
+            imgClassName = 'icon';
+        }
+
         return (
             <LinkButton
-                className="Button  Button--flat"
+                className={`Button Button--flat ${imgClassName}`}
                 href={this.attributes.baseUrl}
                 onclick={(e) => {
                     if (e.ctrlKey || e.metaKey || e.button === 1) return;
@@ -50,10 +60,10 @@ class homeLinkComponent extends Component {
             >
                 {(() => {
                     if (this.attributes.logoUrl) {
-                        return <img className="logo" src={this.attributes.logoUrl} />;
+                        return <img className={imgClassName} src={this.attributes.logoUrl} />;
                     }
                     if (this.attributes.faviconUrl) {
-                        return [<img className="icon" src={this.attributes.faviconUrl} />, this.attributes.title];
+                        return [<img className={imgClassName} src={this.attributes.faviconUrl} />, this.attributes.title];
                     }
                     return this.attributes.title;
                 })()}
