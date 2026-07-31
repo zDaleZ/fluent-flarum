@@ -1063,6 +1063,14 @@ html:active-view-transition {
 			margin: -2px 2px -2px -28px;
         	--size: 24px;
 		}
+
+		& ul {
+			& button, & a {
+				.fluent-menu-item() !important;
+				margin: 0 !important;
+				color: var(--text-color) !important;
+			}
+		}
 	}
 
 	.Header-controls > li.hidden-item {
