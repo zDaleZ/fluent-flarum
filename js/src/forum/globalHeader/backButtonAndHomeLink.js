@@ -33,12 +33,12 @@ class homeLinkComponent extends Component {
     view() {
         let imgClassName = '';
 
-        if (this.attributes.logoUrl) {
-            imgClassName = 'logo';
-        }
-
         if (this.attributes.faviconUrl) {
             imgClassName = 'icon';
+        }
+
+        if (this.attributes.logoUrl) {
+            imgClassName = 'logo';
         }
 
         return (
@@ -59,11 +59,11 @@ class homeLinkComponent extends Component {
                 }}
             >
                 {(() => {
+                    if (this.attributes.faviconUrl && !this.attributes.logoUrl) {
+                        return [<img className={imgClassName} src={this.attributes.faviconUrl} />, this.attributes.title];
+                    }
                     if (this.attributes.logoUrl) {
                         return <img className={imgClassName} src={this.attributes.logoUrl} />;
-                    }
-                    if (this.attributes.faviconUrl) {
-                        return [<img className={imgClassName} src={this.attributes.faviconUrl} />, this.attributes.title];
                     }
                     return this.attributes.title;
                 })()}
