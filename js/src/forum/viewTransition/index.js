@@ -13,6 +13,7 @@ import register from './grabEvent';
 import hookMithril from './hookMithril';
 
 export default () => {
+    if (!document.startViewTransition) return;
     register();
     hookMithril();
     Object.assign(compat, { 'utils/fluent_internal_transition_controller': controller });
